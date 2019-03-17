@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utility.CommandLine.Progress", "src\Utility.CommandLine.ProgressBar\Utility.CommandLine.Progress.csproj", "{BBF4716D-93A7-4444-A144-66A872DF28FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utility.CommandLine.Progress", "src\Utility.CommandLine.Progress\Utility.CommandLine.Progress.csproj", "{BBF4716D-93A7-4444-A144-66A872DF28FE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utility.CommandLine.Progress.Tests", "tests\Utility.CommandLine.ProgressBar.Tests\Utility.CommandLine.Progress.Tests.csproj", "{FA7BF12A-66E6-43DC-BB0E-AED8AE259FF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utility.CommandLine.Progress.Tests", "tests\Utility.CommandLine.Progress.Tests\Utility.CommandLine.Progress.Tests.csproj", "{FA7BF12A-66E6-43DC-BB0E-AED8AE259FF9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example", "examples\Example\Example.csproj", "{CCC61D43-1DBF-48FA-B866-F5F56CC84061}"
 EndProject
