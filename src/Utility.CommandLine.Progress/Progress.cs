@@ -3,6 +3,11 @@ using System.Text;
 
 namespace Utility.CommandLine.ProgressBar
 {
+    public class ProgressSpinner
+    {
+
+    }
+
     public class ProgressBar
     {
         private int _value;
@@ -12,6 +17,7 @@ namespace Utility.CommandLine.ProgressBar
         public int Step { get; }
         public ProgressBarFormat Format { get; }
         public double Percent => Value / (double)Maximum;
+        public bool Complete => Value == Maximum;
         public int Width { get; }
 
         public int Value {
@@ -48,6 +54,11 @@ namespace Utility.CommandLine.ProgressBar
 
         public override string ToString()
         {
+            if (Complete && !Format.ShowWhenComplete)
+            {
+                return string.Empty;
+            }
+
             var percentFull = Value / (double)Maximum;
             var width = Width < 1 ? Console.WindowWidth - Math.Abs(Width) - 4 : Width;
 
@@ -56,7 +67,7 @@ namespace Utility.CommandLine.ProgressBar
             var builder = new StringBuilder();
             builder.Append(Format.Start);
             builder.Append(new string(Format.Full, chars));
-            builder.Append(chars > 0 ? Format.Tip.ToString() : string.Empty);
+            builder.Append(chars > 0 ? chars == width ? Format.Full : Format.Tip : Format.Empty);
             builder.Append(new string(Format.Empty, width - chars));
             builder.Append(Format.End);
 
@@ -66,15 +77,17 @@ namespace Utility.CommandLine.ProgressBar
 
     public class ProgressBarFormat
     {
-        public ProgressBarFormat(char empty = ' ', char full = '█', char tip = '█', char start = '[', char end = ']')
+        public ProgressBarFormat(char empty = ' ', char full = '█', char tip = '█', char start = '[', char end = ']', bool showWhenComplete = true)
         {
             Empty = empty;
             Full = full;
             Tip = tip;
             Start = start;
             End = end;
+            ShowWhenComplete = showWhenComplete;
         }
 
+        public bool ShowWhenComplete { get; }
         public char Start { get; }
         public char End { get; }
         public char Empty { get; }
