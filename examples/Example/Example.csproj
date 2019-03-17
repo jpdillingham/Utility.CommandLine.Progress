@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Utility.CommandLine.ProgressBar\Utility.CommandLine.ProgressBar.csproj" />
+    <ProjectReference Include="..\..\src\Utility.CommandLine.Progress\Utility.CommandLine.Progress.csproj" />
   </ItemGroup>
 
 </Project>
