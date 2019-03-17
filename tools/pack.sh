@@ -1,1 +1,1 @@
-dotnet pack src/Utility.CommandLine.ProgressBar/Utility.CommandLine.ProgressBar.csproj -c Release -p:NuspecFile=Utility.CommandLine.ProgressBar.nuspec
+dotnet pack src/Utility.CommandLine.Progress/Utility.CommandLine.Progress.csproj -c Release -p:NuspecFile=Utility.CommandLine.Progress.nuspec

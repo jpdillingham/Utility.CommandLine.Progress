@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
-    <id>Utility.CommandLine.ProgressBar</id>
+    <id>Utility.CommandLine.Progress</id>
     <version>0.0.1</version>
     <authors>JP Dillingham</authors>
     <owners>JP Dillingham</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <licenseUrl>https://github.com/jpdillingham/Utility.CommandLine.ProgressBar/blob/master/LICENSE</licenseUrl>
-    <projectUrl>https://github.com/jpdillingham/Utility.CommandLine.ProgressBar</projectUrl>
+    <licenseUrl>https://github.com/jpdillingham/Utility.CommandLine.Progress/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/jpdillingham/Utility.CommandLine.Progress</projectUrl>
     <description>A C# .NET class library containing tools for displaying progress in console applications.</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright (c) 2019 JP Dillingham (jp@dillingham.ws)</copyright>
@@ -17,7 +17,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\Release\netstandard2.0\Utility.CommandLine.ProgressBar.dll" target="lib\netstandard2.0\Utility.CommandLine.ProgressBar.dll" />
-    <file src="bin\Release\netstandard2.0\Utility.CommandLine.ProgressBar.xml" target="lib\netstandard2.0\Utility.CommandLine.ProgressBar.xml" />
+    <file src="bin\Release\netstandard2.0\Utility.CommandLine.Progress.dll" target="lib\netstandard2.0\Utility.CommandLine.Progress.dll" />
+    <file src="bin\Release\netstandard2.0\Utility.CommandLine.Progress.xml" target="lib\netstandard2.0\Utility.CommandLine.Progress.xml" />
   </files>
 </package>

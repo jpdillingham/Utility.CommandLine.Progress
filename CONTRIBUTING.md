@@ -12,7 +12,7 @@
 
 - Test coverage must remain 100% unless you have a _really_ good reason.
 - Use the analysis ruleset included in the repo.  Your code must be free of rule violations from analyzers, including StyleCop.
-- All code must reside in ProgressBar.cs.  This allows users to include the library in their project as source without creating clutter.
+- All code must reside in Progress.cs.  This allows users to include the library in their project as source without creating clutter.
 - Follow existing conventions.  This includes code and documentation. 
 - Tread lightly.  Sweeping changes are not likely to be merged.
 
