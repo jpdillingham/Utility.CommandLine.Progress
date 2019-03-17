@@ -1,0 +1,10 @@
+os:
+  - linux
+language: csharp
+mono: none
+dotnet: 2.1
+before_script:
+- dotnet restore
+script:
+- dotnet build --no-restore --no-incremental
+- dotnet test tests/Utility.CommandLine.ProgressBar.Tests
