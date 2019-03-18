@@ -5,7 +5,27 @@ namespace Utility.CommandLine.ProgressBar
 {
     public class ProgressSpinner
     {
+        private int _currentFrame;
 
+        public int CurrentFrame => _currentFrame;
+        public char[] Frames { get; }
+
+        public ProgressSpinner()
+            : this('-', '\\', '|', '/')
+        {
+        }
+
+        public ProgressSpinner(params char[] frames)
+        {
+            _currentFrame = 0;
+            Frames = frames;
+        }
+
+        public override string ToString()
+        {
+            _currentFrame = ++_currentFrame % Frames.Length;
+            return Frames[CurrentFrame].ToString();
+        }
     }
 
     public class ProgressBar
