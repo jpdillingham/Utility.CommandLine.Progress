@@ -8,9 +8,9 @@ namespace Example
     {
         static void Main(string[] args)
         {
-            //FullWidth();
-            //FitToWidth();
-            //FixedWidth();
+            FullWidth();
+            FitToWidth();
+            FixedWidth();
             Disappear();
             WithSpinner();
             BlockySpinner();
@@ -66,7 +66,7 @@ namespace Example
 
         static void Disappear()
         {
-            Loop(new ProgressBar(10, format: new ProgressBarFormat(full: '=', tip: '>', leftPadding: 1, hideWhenComplete: true)), null, (pb, ps) => Console.Write($"\rDoing something...{pb} Some other text."));
+            Loop(new ProgressBar(10, format: new ProgressBarFormat(full: '=', tip: '>', paddingLeft: 1, hideWhenComplete: true)), null, (pb, ps) => Console.Write($"\rDoing something...{pb} Some other text."));
         }
 
         static void WithSpinner()
