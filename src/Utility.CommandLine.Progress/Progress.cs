@@ -85,11 +85,11 @@ namespace Utility.CommandLine.ProgressBar
             var chars = (int)Math.Round(width * percentFull, 0);
 
             var builder = new StringBuilder();
-            builder.Append(new string(Format.Pad, Format.LeftPadding));
+            builder.Append(new string(Format.Pad, Format.PaddingLeft));
             builder.Append(new string(Format.Full, chars));
             builder.Append(chars > 0 ? chars == width ? Format.Full : Format.Tip : Format.Empty);
             builder.Append(new string(Format.Empty, width - chars));
-            builder.Append(new string(' ', Format.RightPadding));
+            builder.Append(new string(' ', Format.PaddingRight));
 
             return builder.ToString();
         }
@@ -97,14 +97,14 @@ namespace Utility.CommandLine.ProgressBar
 
     public class ProgressBarFormat
     {
-        public ProgressBarFormat(char empty = ' ', char full = '█', char tip = '█', bool hideWhenComplete = false, int leftPadding = 0, int rightPadding = 0, char pad = ' ')
+        public ProgressBarFormat(char empty = ' ', char full = '█', char tip = '█', bool hideWhenComplete = false, int paddingLeft = 0, int paddingRight = 0, char pad = ' ')
         {
             Empty = empty;
             Full = full;
             Tip = tip;
-            HideWhenComplete = HideWhenComplete;
-            LeftPadding = leftPadding;
-            RightPadding = rightPadding;
+            HideWhenComplete = hideWhenComplete;
+            PaddingLeft = paddingLeft;
+            PaddingRight = paddingRight;
             Pad = pad;
         }
 
@@ -113,7 +113,7 @@ namespace Utility.CommandLine.ProgressBar
         public char Full { get; }
         public char Tip { get; }
         public char Pad { get; }
-        public int LeftPadding { get; }
-        public int RightPadding { get; }
+        public int PaddingRight { get; }
+        public int PaddingLeft { get; }
     }
 }
