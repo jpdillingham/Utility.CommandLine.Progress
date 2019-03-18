@@ -5,9 +5,7 @@ namespace Utility.CommandLine.ProgressBar
 {
     public class ProgressSpinner
     {
-        private int _currentFrame;
-
-        public int CurrentFrame => _currentFrame;
+        public int CurrentFrame { get; private set; }
         public char[] Frames { get; }
 
         public ProgressSpinner()
@@ -17,15 +15,46 @@ namespace Utility.CommandLine.ProgressBar
 
         public ProgressSpinner(params char[] frames)
         {
-            _currentFrame = 0;
+            CurrentFrame = 0;
             Frames = frames;
         }
 
         public override string ToString()
         {
-            _currentFrame = ++_currentFrame % Frames.Length;
+            CurrentFrame = ++CurrentFrame % Frames.Length;
             return Frames[CurrentFrame].ToString();
         }
+    }
+
+    public class Marquee
+    {
+        public string Text { get; }
+        public int Width { get; }
+        public MarqueeFormat Format { get; }
+
+        public Marquee(string text = "", MarqueeFormat format = null)
+        {
+            Text = text;
+            Format = format ?? new MarqueeFormat();
+        }
+    }
+
+    public class MarqueeFormat
+    {
+        public MarqueeFormat(char empty = ' ', char start = '[', char end = ']', bool bounce = false, bool reverseOnBounce = false)
+        {
+            Empty = empty;
+            Start = start;
+            End = end;
+            Bounce = bounce;
+            ReverseOnBounce = reverseOnBounce;
+        }
+
+        public char Empty { get; }
+        public char Start { get; }
+        public char End { get; }
+        public bool Bounce { get; }
+        public bool ReverseOnBounce { get; }
     }
 
     public class ProgressBar
