@@ -86,9 +86,11 @@ namespace Utility.CommandLine.ProgressBar
 
             var builder = new StringBuilder();
             builder.Append(new string(Format.Pad, Format.PaddingLeft));
+            builder.Append(Format.Start);
             builder.Append(new string(Format.Full, chars));
             builder.Append(chars > 0 ? chars == width ? Format.Full : Format.Tip : Format.Empty);
             builder.Append(new string(Format.Empty, width - chars));
+            builder.Append(Format.End);
             builder.Append(new string(' ', Format.PaddingRight));
 
             return builder.ToString();
@@ -97,11 +99,13 @@ namespace Utility.CommandLine.ProgressBar
 
     public class ProgressBarFormat
     {
-        public ProgressBarFormat(char empty = ' ', char full = '█', char tip = '█', bool hideWhenComplete = false, int paddingLeft = 0, int paddingRight = 0, char pad = ' ')
+        public ProgressBarFormat(char empty = ' ', char full = '█', char tip = '█', char start = '[', char end = ']', bool hideWhenComplete = false, int paddingLeft = 0, int paddingRight = 0, char pad = ' ')
         {
             Empty = empty;
             Full = full;
             Tip = tip;
+            Start = start;
+            End = end;
             HideWhenComplete = hideWhenComplete;
             PaddingLeft = paddingLeft;
             PaddingRight = paddingRight;
@@ -113,6 +117,8 @@ namespace Utility.CommandLine.ProgressBar
         public char Full { get; }
         public char Tip { get; }
         public char Pad { get; }
+        public char Start { get; }
+        public char End { get; }
         public int PaddingRight { get; }
         public int PaddingLeft { get; }
     }
