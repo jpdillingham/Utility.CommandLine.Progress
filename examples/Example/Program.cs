@@ -8,15 +8,17 @@ namespace Example
     {
         static void Main(string[] args)
         {
-            FullWidth();
-            FitToWidth();
-            FixedWidth();
-            Disappear();
-            WithSpinner();
-            BlockySpinner();
+            //FullWidth();
+            //FitToWidth();
+            //FixedWidth();
+            //Disappear();
+            //WithSpinner();
+            //BlockySpinner();
+            //BlackWhiteSpinner();
+            BlockySpinner2();
         }
 
-        static void Loop(ProgressBar pb, ProgressSpinner ps, Action<ProgressBar, ProgressSpinner> action)
+        static void Loop(ProgressBar pb, Spinner ps, Action<ProgressBar, Spinner> action)
         {
             for (int i = 0; i < 100; i++)
             {
@@ -71,12 +73,22 @@ namespace Example
 
         static void WithSpinner()
         {
-            Loop(new ProgressBar(10, format: new ProgressBarFormat(full: '=', tip: '>')), new ProgressSpinner(), (pb, ps) => Console.Write($"\rDoing something... {pb} {ps}"));
+            Loop(new ProgressBar(10, format: new ProgressBarFormat(full: '=', tip: '>')), new Spinner(), (pb, ps) => Console.Write($"\rDoing something... {pb} {ps}"));
         }
 
         static void BlockySpinner()
         {
-            Loop(new ProgressBar(10, format: new ProgressBarFormat(full: '=', tip: '>')), new ProgressSpinner('█', '▓', '▒', '░', '▒', '▓'), (pb, ps) => Console.Write($"\rDoing something... {pb} {ps}"));
+            Loop(new ProgressBar(10, format: new ProgressBarFormat(full: '=', tip: '>')), new Spinner('█', '▓', '▒', '░', '▒', '▓'), (pb, ps) => Console.Write($"\rDoing something... {pb} {ps}"));
+        }
+
+        static void BlackWhiteSpinner()
+        {
+            Loop(new ProgressBar(10, format: new ProgressBarFormat(full: '=', tip: '>')), new Spinner('■', '□'), (pb, ps) => Console.Write($"\rDoing something... {pb} {ps}"));
+        }
+
+        static void BlockySpinner2()
+        {
+            Loop(new ProgressBar(10, format: new ProgressBarFormat(full: '=', tip: '>')), new Spinner('▀', '▄'), (pb, ps) => Console.Write($"\rDoing something... {pb} {ps}"));
         }
     }
 }
