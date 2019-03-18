@@ -3,17 +3,17 @@ using System.Text;
 
 namespace Utility.CommandLine.ProgressBar
 {
-    public class ProgressSpinner
+    public class Spinner
     {
         public int CurrentFrame { get; private set; }
         public char[] Frames { get; }
 
-        public ProgressSpinner()
+        public Spinner()
             : this('-', '\\', '|', '/')
         {
         }
 
-        public ProgressSpinner(params char[] frames)
+        public Spinner(params char[] frames)
         {
             CurrentFrame = 0;
             Frames = frames;
