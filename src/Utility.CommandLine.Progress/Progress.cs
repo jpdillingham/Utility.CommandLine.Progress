@@ -74,7 +74,7 @@ namespace Utility.CommandLine.ProgressBar
 
         public override string ToString()
         {
-            if (Complete && !Format.ShowWhenComplete)
+            if (Complete && Format.HideWhenComplete)
             {
                 return string.Empty;
             }
@@ -85,11 +85,11 @@ namespace Utility.CommandLine.ProgressBar
             var chars = (int)Math.Round(width * percentFull, 0);
 
             var builder = new StringBuilder();
-            builder.Append(Format.Start);
+            builder.Append(new string(Format.Pad, Format.LeftPadding));
             builder.Append(new string(Format.Full, chars));
             builder.Append(chars > 0 ? chars == width ? Format.Full : Format.Tip : Format.Empty);
             builder.Append(new string(Format.Empty, width - chars));
-            builder.Append(Format.End);
+            builder.Append(new string(' ', Format.RightPadding));
 
             return builder.ToString();
         }
@@ -97,21 +97,23 @@ namespace Utility.CommandLine.ProgressBar
 
     public class ProgressBarFormat
     {
-        public ProgressBarFormat(char empty = ' ', char full = '█', char tip = '█', char start = '[', char end = ']', bool showWhenComplete = true)
+        public ProgressBarFormat(char empty = ' ', char full = '█', char tip = '█', bool hideWhenComplete = false, int leftPadding = 0, int rightPadding = 0, char pad = ' ')
         {
             Empty = empty;
             Full = full;
             Tip = tip;
-            Start = start;
-            End = end;
-            ShowWhenComplete = showWhenComplete;
+            HideWhenComplete = HideWhenComplete;
+            LeftPadding = leftPadding;
+            RightPadding = rightPadding;
+            Pad = pad;
         }
 
-        public bool ShowWhenComplete { get; }
-        public char Start { get; }
-        public char End { get; }
+        public bool HideWhenComplete { get; }
         public char Empty { get; }
         public char Full { get; }
         public char Tip { get; }
+        public char Pad { get; }
+        public int LeftPadding { get; }
+        public int RightPadding { get; }
     }
 }
