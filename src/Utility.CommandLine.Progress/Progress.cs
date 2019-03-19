@@ -50,28 +50,42 @@ namespace Utility.CommandLine.ProgressBar
             builder.Append(new string(Format.Pad, Format.PaddingLeft));
             builder.Append(Format.Start);
 
+            // todo: clean this up once the logic is clear
             if (Format.Bounce)
             {
-                CurrentPosition = ++CurrentPosition % Width;
-
-                if (Format.ReverseOnBounce)
+                if (Reversed)
                 {
-                    Text = new string(Text.Reverse().ToArray());
-                }
-
-                if (Text.Length + CurrentPosition > width)
-                {
-                    var incomingTextLen = Text.Length - (width - CurrentPosition);
-                    builder.Append(Text.Substring(width - CurrentPosition, incomingTextLen));
-                    builder.Append(new string(Format.Empty, CurrentPosition - incomingTextLen));
-                    builder.Append(Text.Substring(0, width - CurrentPosition));
+                    CurrentPosition = --CurrentPosition % Width;
                 }
                 else
                 {
-                    builder.Append(new string(Format.Empty, CurrentPosition));
-                    builder.Append(Text);
-                    builder.Append(new string(Format.Empty, width - CurrentPosition - Text.Length));
+                    CurrentPosition = ++CurrentPosition % Width;
                 }
+
+                if (CurrentPosition < 0)
+                {
+                    CurrentPosition = 1;
+                    Reversed = !Reversed;
+
+                    if (Format.ReverseOnBounce)
+                    {
+                        Text = new string(Text.Reverse().ToArray());
+                    }
+                }
+                if (Text.Length + CurrentPosition > width)
+                {
+                    CurrentPosition -= 2;
+                    Reversed = !Reversed;
+
+                    if (Format.ReverseOnBounce)
+                    {
+                        Text = new string(Text.Reverse().ToArray());
+                    }
+                }
+
+                builder.Append(new string(Format.Empty, CurrentPosition));
+                builder.Append(Text);
+                builder.Append(new string(Format.Empty, width - CurrentPosition - Text.Length));
             }
             else
             {
