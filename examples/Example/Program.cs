@@ -8,22 +8,23 @@ namespace Example
     {
         static void Main(string[] args)
         {
-            FullWidth();
-            FitToWidth();
-            FixedWidth();
-            Disappear();
-            WithSpinner();
-            BlockySpinner();
-            BlockySpinner2();
+            //FullWidth();
+            //FitToWidth();
+            //FixedWidth();
+            //Disappear();
+            //WithSpinner();
+            //BlockySpinner();
+            //BlockySpinner2();
+            Marquee();
         }
 
-        static void Loop(ProgressBar pb, Spinner ps, Action<ProgressBar, Spinner> action)
+        static void Loop(ProgressBar pb, Spinner ps, Marquee m, Action<ProgressBar, Spinner, Marquee> action)
         {
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < pb.Maximum; i++)
             {
                 pb.PerformStep();
-                action(pb, ps);
-                Thread.Sleep(50);
+                action(pb, ps, m);
+                Thread.Sleep(10);
             }
 
             Console.Write("\n");
@@ -61,27 +62,32 @@ namespace Example
 
         static void FixedWidth()
         {
-            Loop(new ProgressBar(10, format: new ProgressBarFormat(full: '=', tip: '>')), null, (pb, ps) => Console.Write($"\rDoing something... {pb} Some other text."));
+            Loop(new ProgressBar(10, format: new ProgressBarFormat(full: '=', tip: '>')), null, null, (pb, ps, _) => Console.Write($"\rDoing something... {pb} Some other text."));
         }
 
         static void Disappear()
         {
-            Loop(new ProgressBar(10, format: new ProgressBarFormat(full: '=', tip: '>', paddingLeft: 1, hideWhenComplete: true)), null, (pb, ps) => Console.Write($"\rDoing something...{pb} Some other text.".PadRight(Console.WindowWidth - 1)));
+            Loop(new ProgressBar(10, format: new ProgressBarFormat(full: '=', tip: '>', paddingLeft: 1, hideWhenComplete: true)), null, null, (pb, ps, _) => Console.Write($"\rDoing something...{pb} Some other text.".PadRight(Console.WindowWidth - 1)));
         }
 
         static void WithSpinner()
         {
-            Loop(new ProgressBar(10, format: new ProgressBarFormat(full: '=', tip: '>')), new Spinner(), (pb, ps) => Console.Write($"\rDoing something... {pb} {ps}"));
+            Loop(new ProgressBar(10, format: new ProgressBarFormat(full: '=', tip: '>')), new Spinner(), null, (pb, ps, _) => Console.Write($"\rDoing something... {pb} {ps}"));
         }
 
         static void BlockySpinner()
         {
-            Loop(new ProgressBar(10, format: new ProgressBarFormat(full: '=', tip: '>')), new Spinner('█', '▓', '▒', '░', '▒', '▓'), (pb, ps) => Console.Write($"\rDoing something... {pb} {ps}"));
+            Loop(new ProgressBar(10, format: new ProgressBarFormat(full: '=', tip: '>')), new Spinner('█', '▓', '▒', '░', '▒', '▓'), null, (pb, ps, _) => Console.Write($"\rDoing something... {pb} {ps}"));
         }
 
         static void BlockySpinner2()
         {
-            Loop(new ProgressBar(-30, format: new ProgressBarFormat(full: '█', empty: '░')), new Spinner('▀', '▄'), (pb, ps) => Console.Write($"\rDoing something... {pb} {ps}".PadRight(Console.WindowWidth - 1)));
+            Loop(new ProgressBar(-30, format: new ProgressBarFormat(full: '█', empty: '░')), new Spinner('▀', '▄'), null, (pb, ps, _) => Console.Write($"\rDoing something... {pb} {ps}".PadRight(Console.WindowWidth - 1)));
+        }
+
+        static void Marquee()
+        {
+            Loop(new ProgressBar(10, 0, 1000, 1, 0), null, new Marquee("Hello, World!", 50, new MarqueeFormat(bounce: true, reverseOnBounce: true)), (pb, ps, m) => Console.Write($"\r{pb} {m}"));
         }
     }
 }
