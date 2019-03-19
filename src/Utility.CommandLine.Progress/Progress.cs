@@ -128,7 +128,7 @@ namespace Utility.CommandLine.ProgressBar
 
     public class ProgressBarFormat
     {
-        public ProgressBarFormat(char empty = ' ', char full = '█', char tip = '█', char start = '[', char end = ']', bool hideWhenComplete = false, int paddingLeft = 0, int paddingRight = 0, char pad = ' ')
+        public ProgressBarFormat(char empty = '░', char full = '█', char tip = '█', char? start = null, char? end = null, bool hideWhenComplete = false, int paddingLeft = 0, int paddingRight = 0, char pad = ' ')
         {
             Empty = empty;
             Full = full;
@@ -146,8 +146,8 @@ namespace Utility.CommandLine.ProgressBar
         public char Full { get; }
         public char Tip { get; }
         public char Pad { get; }
-        public char Start { get; }
-        public char End { get; }
+        public char? Start { get; }
+        public char? End { get; }
         public int PaddingRight { get; }
         public int PaddingLeft { get; }
     }
