@@ -87,7 +87,7 @@ namespace Example
 
         static void Marquee()
         {
-            Loop(new ProgressBar(10, 0, 1000, 1, 0), null, new Marquee("Hello, World!", 50, new MarqueeFormat(bounce: true, reverseOnBounce: true)), (pb, ps, m) => Console.Write($"\r{pb} {m}"));
+            Loop(new ProgressBar(10, 0, 1000, 1, 0), null, new Marquee("Hello, World!", 50, new MarqueeFormat(bounce: true, reverseTextOnBounce: true)), (pb, ps, m) => Console.Write($"\r{pb} {m}"));
         }
     }
 }

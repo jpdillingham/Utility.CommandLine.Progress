@@ -67,7 +67,7 @@ namespace Utility.CommandLine.ProgressBar
                     CurrentPosition = 1;
                     Reversed = !Reversed;
 
-                    if (Format.ReverseOnBounce)
+                    if (Format.ReverseTextOnBounce)
                     {
                         Text = new string(Text.Reverse().ToArray());
                     }
@@ -77,7 +77,7 @@ namespace Utility.CommandLine.ProgressBar
                     CurrentPosition -= 2;
                     Reversed = !Reversed;
 
-                    if (Format.ReverseOnBounce)
+                    if (Format.ReverseTextOnBounce)
                     {
                         Text = new string(Text.Reverse().ToArray());
                     }
@@ -115,16 +115,16 @@ namespace Utility.CommandLine.ProgressBar
 
     public class MarqueeFormat
     {
-        public MarqueeFormat(char empty = ' ', char? start = null, char? end = null, bool bounce = false, bool reverseOnBounce = false, int paddingLeft = 0, int paddingRight = 0, char pad = ' ')
+        public MarqueeFormat(char empty = ' ', char? start = null, char? end = null, bool bounce = false, bool reverseTextOnBounce = false, int paddingLeft = 0, int paddingRight = 0, char pad = ' ')
         {
             Empty = empty;
             Start = start;
             End = end;
-            Bounce = bounce;
-            ReverseOnBounce = reverseOnBounce;
             Pad = pad;
             PaddingLeft = paddingLeft;
             PaddingRight = paddingRight;
+            Bounce = bounce;
+            ReverseTextOnBounce = reverseTextOnBounce;
         }
 
         public char Empty { get; }
@@ -132,7 +132,7 @@ namespace Utility.CommandLine.ProgressBar
         public char? End { get; }
         public bool Bounce { get; }
         public char Pad { get; }
-        public bool ReverseOnBounce { get; }
+        public bool ReverseTextOnBounce { get; }
         public int PaddingRight { get; }
         public int PaddingLeft { get; }
     }
