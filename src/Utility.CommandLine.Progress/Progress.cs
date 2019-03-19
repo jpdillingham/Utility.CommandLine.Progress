@@ -32,16 +32,17 @@ namespace Utility.CommandLine.ProgressBar
         public int Width { get; }
         public MarqueeFormat Format { get; }
 
-        public Marquee(string text = "", MarqueeFormat format = null)
+        public Marquee(string text = "", int width = 0, MarqueeFormat format = null)
         {
             Text = text;
+            Width = width;
             Format = format ?? new MarqueeFormat();
         }
     }
 
     public class MarqueeFormat
     {
-        public MarqueeFormat(char empty = ' ', char start = '[', char end = ']', bool bounce = false, bool reverseOnBounce = false)
+        public MarqueeFormat(char empty = ' ', char? start = null, char? end = null, bool bounce = false, bool reverseOnBounce = false)
         {
             Empty = empty;
             Start = start;
@@ -51,8 +52,8 @@ namespace Utility.CommandLine.ProgressBar
         }
 
         public char Empty { get; }
-        public char Start { get; }
-        public char End { get; }
+        public char? Start { get; }
+        public char? End { get; }
         public bool Bounce { get; }
         public bool ReverseOnBounce { get; }
     }
