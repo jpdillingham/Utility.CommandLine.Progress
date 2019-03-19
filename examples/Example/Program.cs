@@ -8,13 +8,12 @@ namespace Example
     {
         static void Main(string[] args)
         {
-            //FullWidth();
-            //FitToWidth();
-            //FixedWidth();
-            //Disappear();
-            //WithSpinner();
-            //BlockySpinner();
-            //BlackWhiteSpinner();
+            FullWidth();
+            FitToWidth();
+            FixedWidth();
+            Disappear();
+            WithSpinner();
+            BlockySpinner();
             BlockySpinner2();
         }
 
@@ -23,7 +22,6 @@ namespace Example
             for (int i = 0; i < 100; i++)
             {
                 pb.PerformStep();
-                //Console.Write("\r" + new string(' ', Console.WindowWidth - 1) + "\r");
                 action(pb, ps);
                 Thread.Sleep(50);
             }
@@ -68,7 +66,7 @@ namespace Example
 
         static void Disappear()
         {
-            Loop(new ProgressBar(10, format: new ProgressBarFormat(full: '=', tip: '>', paddingLeft: 1, hideWhenComplete: true)), null, (pb, ps) => Console.Write($"\rDoing something...{pb} Some other text."));
+            Loop(new ProgressBar(10, format: new ProgressBarFormat(full: '=', tip: '>', paddingLeft: 1, hideWhenComplete: true)), null, (pb, ps) => Console.Write($"\rDoing something...{pb} Some other text.".PadRight(Console.WindowWidth - 1)));
         }
 
         static void WithSpinner()
@@ -81,14 +79,9 @@ namespace Example
             Loop(new ProgressBar(10, format: new ProgressBarFormat(full: '=', tip: '>')), new Spinner('█', '▓', '▒', '░', '▒', '▓'), (pb, ps) => Console.Write($"\rDoing something... {pb} {ps}"));
         }
 
-        static void BlackWhiteSpinner()
-        {
-            Loop(new ProgressBar(10, format: new ProgressBarFormat(full: '=', tip: '>')), new Spinner('■', '□'), (pb, ps) => Console.Write($"\rDoing something... {pb} {ps}"));
-        }
-
         static void BlockySpinner2()
         {
-            Loop(new ProgressBar(10, format: new ProgressBarFormat(full: '=', tip: '>')), new Spinner('▀', '▄'), (pb, ps) => Console.Write($"\rDoing something... {pb} {ps}"));
+            Loop(new ProgressBar(-30, format: new ProgressBarFormat(full: '█', empty: '░')), new Spinner('▀', '▄'), (pb, ps) => Console.Write($"\rDoing something... {pb} {ps}".PadRight(Console.WindowWidth - 1)));
         }
     }
 }
