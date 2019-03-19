@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 
 namespace Utility.CommandLine.ProgressBar
@@ -28,9 +29,11 @@ namespace Utility.CommandLine.ProgressBar
 
     public class Marquee
     {
-        public string Text { get; }
+        public string Text { get; private set; }
         public int Width { get; }
         public MarqueeFormat Format { get; }
+        public int CurrentPosition { get; private set; }
+        public bool Reversed { get; private set; }
 
         public Marquee(string text = "", int width = 0, MarqueeFormat format = null)
         {
@@ -38,24 +41,86 @@ namespace Utility.CommandLine.ProgressBar
             Width = width;
             Format = format ?? new MarqueeFormat();
         }
+
+        public override string ToString()
+        {
+            var width = Width < 1 ? Console.WindowWidth - Math.Abs(Width) - 4 : Width;
+
+            var builder = new StringBuilder();
+            builder.Append(new string(Format.Pad, Format.PaddingLeft));
+            builder.Append(Format.Start);
+
+            if (Format.Bounce)
+            {
+                CurrentPosition = ++CurrentPosition % Width;
+
+                if (Format.ReverseOnBounce)
+                {
+                    Text = new string(Text.Reverse().ToArray());
+                }
+
+                if (Text.Length + CurrentPosition > width)
+                {
+                    var incomingTextLen = Text.Length - (width - CurrentPosition);
+                    builder.Append(Text.Substring(width - CurrentPosition, incomingTextLen));
+                    builder.Append(new string(Format.Empty, CurrentPosition - incomingTextLen));
+                    builder.Append(Text.Substring(0, width - CurrentPosition));
+                }
+                else
+                {
+                    builder.Append(new string(Format.Empty, CurrentPosition));
+                    builder.Append(Text);
+                    builder.Append(new string(Format.Empty, width - CurrentPosition - Text.Length));
+                }
+            }
+            else
+            {
+                CurrentPosition = ++CurrentPosition % Width;
+
+                if (Text.Length + CurrentPosition > width)
+                {
+                    var incomingTextLen = Text.Length - (width - CurrentPosition);
+                    builder.Append(Text.Substring(width - CurrentPosition, incomingTextLen));
+                    builder.Append(new string(Format.Empty, CurrentPosition - incomingTextLen));
+                    builder.Append(Text.Substring(0, width - CurrentPosition));
+                }
+                else
+                {
+                    builder.Append(new string(Format.Empty, CurrentPosition));
+                    builder.Append(Text);
+                    builder.Append(new string(Format.Empty, width - CurrentPosition - Text.Length));
+                }
+            }
+
+            builder.Append(Format.End);
+            builder.Append(new string(Format.Pad, Format.PaddingRight));
+
+            return builder.ToString();
+        }
     }
 
     public class MarqueeFormat
     {
-        public MarqueeFormat(char empty = ' ', char? start = null, char? end = null, bool bounce = false, bool reverseOnBounce = false)
+        public MarqueeFormat(char empty = ' ', char? start = null, char? end = null, bool bounce = false, bool reverseOnBounce = false, int paddingLeft = 0, int paddingRight = 0, char pad = ' ')
         {
             Empty = empty;
             Start = start;
             End = end;
             Bounce = bounce;
             ReverseOnBounce = reverseOnBounce;
+            Pad = pad;
+            PaddingLeft = paddingLeft;
+            PaddingRight = paddingRight;
         }
 
         public char Empty { get; }
         public char? Start { get; }
         public char? End { get; }
         public bool Bounce { get; }
+        public char Pad { get; }
         public bool ReverseOnBounce { get; }
+        public int PaddingRight { get; }
+        public int PaddingLeft { get; }
     }
 
     public class ProgressBar
