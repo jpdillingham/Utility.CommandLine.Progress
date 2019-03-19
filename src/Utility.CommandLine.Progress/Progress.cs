@@ -51,6 +51,8 @@ namespace Utility.CommandLine.ProgressBar
             builder.Append(Format.Start);
 
             // todo: clean this up once the logic is clear
+            // todo: add the ability to scroll right to left
+            // todo: handle cases where input text is longer than width
             if (Format.Bounce)
             {
                 if (Reversed)
@@ -115,7 +117,7 @@ namespace Utility.CommandLine.ProgressBar
 
     public class MarqueeFormat
     {
-        public MarqueeFormat(char empty = ' ', char? start = null, char? end = null, bool bounce = false, bool reverseTextOnBounce = false, int paddingLeft = 0, int paddingRight = 0, char pad = ' ')
+        public MarqueeFormat(char empty = ' ', char? start = null, char? end = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ', bool bounce = false, bool reverseTextOnBounce = false, bool leftToRight = false)
         {
             Empty = empty;
             Start = start;
@@ -125,6 +127,7 @@ namespace Utility.CommandLine.ProgressBar
             PaddingRight = paddingRight;
             Bounce = bounce;
             ReverseTextOnBounce = reverseTextOnBounce;
+            LeftToRight = leftToRight;
         }
 
         public char Empty { get; }
@@ -135,6 +138,7 @@ namespace Utility.CommandLine.ProgressBar
         public bool ReverseTextOnBounce { get; }
         public int PaddingRight { get; }
         public int PaddingLeft { get; }
+        public bool LeftToRight { get; }
     }
 
     public class ProgressBar
