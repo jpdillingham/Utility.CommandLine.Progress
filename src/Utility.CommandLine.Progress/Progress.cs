@@ -14,15 +14,19 @@ namespace Utility.CommandLine.ProgressBar
         {
         }
 
+        public void PerformStep()
+        {
+            CurrentFrame = ++CurrentFrame % Frames.Length;
+        }
+
         public Spinner(params char[] frames)
         {
-            CurrentFrame = -1;
+            CurrentFrame = 0;
             Frames = frames;
         }
 
         public override string ToString()
         {
-            CurrentFrame = ++CurrentFrame % Frames.Length;
             return Frames[CurrentFrame].ToString();
         }
     }
@@ -47,19 +51,8 @@ namespace Utility.CommandLine.ProgressBar
             _text = new string(Format.Empty, Width) + Text;
         }
 
-        public override string ToString()
+        public void PerformStep()
         {
-            var width = Width < 1 ? Console.WindowWidth - Math.Abs(Width) - 4 : Width;
-
-            var builder = new StringBuilder();
-            builder.Append(new string(Format.Pad, Format.PaddingLeft));
-            builder.Append(Format.Start);
-
-            builder.Append(new string(_text.Take(width).ToArray()));
- 
-            builder.Append(Format.End);
-            builder.Append(new string(Format.Pad, Format.PaddingRight));
-
             if (Format.LeftToRight ^ Reversed)
             {
                 RotateRight();
@@ -75,10 +68,21 @@ namespace Utility.CommandLine.ProgressBar
                 Text = new string(Text.Reverse().ToArray());
 
                 _text = new string(Format.Empty, Width) + Text;
-                //Console.WriteLine(_text.Substring(Width, Text.Length));
             }
+        }
 
-            //Console.WriteLine(CurrentPosition);
+        public override string ToString()
+        {
+            var width = Width < 1 ? Console.WindowWidth - Math.Abs(Width) - 4 : Width;
+
+            var builder = new StringBuilder();
+            builder.Append(new string(Format.Pad, Format.PaddingLeft));
+            builder.Append(Format.Start);
+
+            builder.Append(new string(_text.Take(width).ToArray()));
+ 
+            builder.Append(Format.End);
+            builder.Append(new string(Format.Pad, Format.PaddingRight));
 
             return builder.ToString();
         }

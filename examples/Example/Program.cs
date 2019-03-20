@@ -14,7 +14,7 @@ namespace Example
             //Disappear();
             //WithSpinner();
             //BlockySpinner();
-            //BlockySpinner2();
+            BlockySpinner2();
             Marquee();
         }
 
@@ -28,7 +28,7 @@ namespace Example
                 Thread.Sleep(20);
             }
 
-            //Console.Write("\n");
+            Console.Write("\n");
         }
 
         static void FullWidth()
@@ -83,12 +83,20 @@ namespace Example
 
         static void BlockySpinner2()
         {
-            Loop(new ProgressBar(-30, format: new ProgressBarFormat(full: '█', empty: '░')), new Spinner('▀', '▄'), null, (pb, ps, _) => Console.Write($"\rDoing something... {pb} {ps}".PadRight(Console.WindowWidth - 1)));
+            Loop(new ProgressBar(-30, format: new ProgressBarFormat(full: '█', empty: '░')), new Spinner('▀', '▄'), null, (pb, ps, _) => 
+            {
+                ps.PerformStep();
+                Console.Write($"\rDoing something... {pb} {ps}".PadRight(Console.WindowWidth - 1));
+            });
         }
 
         static void Marquee()
         {
-            Loop(new ProgressBar(10, 0, 1000, 1, 0), null, new Marquee("█▓▒░", 10, new MarqueeFormat(leftToRight: false, bounce: true, reverseTextOnBounce: true)), (pb, ps, m) => Console.Write($"\r{pb} {m}"));
+            Loop(new ProgressBar(10, 0, 1000, 1, 0), null, new Marquee("█▓▒░", 10, new MarqueeFormat(leftToRight: false, bounce: true, reverseTextOnBounce: true)), (pb, ps, m) => 
+            {
+                m.PerformStep();
+                Console.Write($"\r{pb} {m}");
+            });
         }
     }
 }
