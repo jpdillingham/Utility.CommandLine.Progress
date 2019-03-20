@@ -72,7 +72,10 @@ namespace Utility.CommandLine.ProgressBar
             if (CurrentPosition == 0 && Format.Bounce)
             {
                 Reversed = !Reversed;
-                //Console.WriteLine("reverse");
+                Text = new string(Text.Reverse().ToArray());
+
+                _text = new string(Format.Empty, Width) + Text;
+                //Console.WriteLine(_text.Substring(Width, Text.Length));
             }
 
             //Console.WriteLine(CurrentPosition);

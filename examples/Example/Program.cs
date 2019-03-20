@@ -25,7 +25,7 @@ namespace Example
                 pb.PerformStep();
                 action(pb, ps, m);
                 //Console.Write("\n");
-                Thread.Sleep(50);
+                Thread.Sleep(20);
             }
 
             //Console.Write("\n");
@@ -55,7 +55,7 @@ namespace Example
             {
                 pb.PerformStep();
                 Console.Write($"\r{text} [{Math.Round(pb.Percent * 100).ToString().PadLeft(3)}%] {pb}");
-                Thread.Sleep(10);
+                Thread.Sleep(5);
             }
 
             Console.Write("\n");
@@ -88,7 +88,7 @@ namespace Example
 
         static void Marquee()
         {
-            Loop(new ProgressBar(10, 0, 1000, 1, 0), null, new Marquee("███", 10, new MarqueeFormat(leftToRight: true, bounce: true, reverseTextOnBounce: true)), (pb, ps, m) => Console.Write($"\r{pb} {m}"));
+            Loop(new ProgressBar(10, 0, 1000, 1, 0), null, new Marquee("█▓▒░", 10, new MarqueeFormat(leftToRight: false, bounce: true, reverseTextOnBounce: true)), (pb, ps, m) => Console.Write($"\r{pb} {m}"));
         }
     }
 }
