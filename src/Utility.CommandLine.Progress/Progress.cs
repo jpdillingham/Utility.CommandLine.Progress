@@ -8,10 +8,23 @@ namespace Utility.CommandLine.ProgressBar
     {
         public int CurrentFrame { get; private set; }
         public char[] Frames { get; }
+        public SpinnerFormat Format { get; }
 
-        public Spinner()
-            : this('-', '\\', '|', '/')
+        public Spinner(SpinnerFormat format = null)
+            : this(new[] { '-', '\\', '|', '/' }, format)
         {
+        }
+
+        public Spinner(params char[] frames)
+            : this(frames, null)
+        {
+        }
+
+        public Spinner(char[] frames, SpinnerFormat format = null)
+        {
+            CurrentFrame = 0;
+            Frames = frames;
+            Format = format ?? new SpinnerFormat();
         }
 
         public void PerformStep()
@@ -19,16 +32,37 @@ namespace Utility.CommandLine.ProgressBar
             CurrentFrame = ++CurrentFrame % Frames.Length;
         }
 
-        public Spinner(params char[] frames)
-        {
-            CurrentFrame = 0;
-            Frames = frames;
-        }
-
         public override string ToString()
         {
-            return Frames[CurrentFrame].ToString();
+            var builder = new StringBuilder();
+            builder.Append(new string(Format.Pad, Format.PaddingLeft));
+            builder.Append(Format.Start);
+
+            builder.Append(Frames[CurrentFrame]);
+
+            builder.Append(Format.End);
+            builder.Append(new string(Format.Pad, Format.PaddingRight));
+
+            return builder.ToString();
         }
+    }
+
+    public class SpinnerFormat
+    {
+        public SpinnerFormat(char? start = null, char? end = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ')
+        {
+            Start = start;
+            End = end;
+            Pad = pad;
+            PaddingLeft = paddingLeft;
+            PaddingRight = paddingRight;
+        }
+
+        public char? Start { get; }
+        public char? End { get; }
+        public char Pad { get; }
+        public int PaddingRight { get; }
+        public int PaddingLeft { get; }
     }
 
     public class Marquee
@@ -48,7 +82,14 @@ namespace Utility.CommandLine.ProgressBar
             Format = format ?? new MarqueeFormat();
             CurrentPosition = Text.Length + Width;
 
-            _text = new string(Format.Empty, Width) + Text;
+            if (Format.NoSpace)
+            {
+                _text = Text;
+            }
+            else
+            {
+                _text = new string(Format.Empty, Width) + Text;
+            }
         }
 
         public void PerformStep()
@@ -102,7 +143,7 @@ namespace Utility.CommandLine.ProgressBar
 
     public class MarqueeFormat
     {
-        public MarqueeFormat(char empty = ' ', char? start = null, char? end = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ', bool bounce = false, bool reverseTextOnBounce = false, bool leftToRight = false)
+        public MarqueeFormat(char empty = ' ', char? start = null, char? end = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ', bool bounce = false, bool reverseTextOnBounce = false, bool leftToRight = false, bool noSpace = false)
         {
             Empty = empty;
             Start = start;
@@ -113,6 +154,7 @@ namespace Utility.CommandLine.ProgressBar
             Bounce = bounce;
             ReverseTextOnBounce = reverseTextOnBounce;
             LeftToRight = leftToRight;
+            NoSpace = noSpace;
         }
 
         public char Empty { get; }
@@ -124,6 +166,7 @@ namespace Utility.CommandLine.ProgressBar
         public int PaddingRight { get; }
         public int PaddingLeft { get; }
         public bool LeftToRight { get; }
+        public bool NoSpace { get; }
     }
 
     public class ProgressBar
