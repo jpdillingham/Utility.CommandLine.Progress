@@ -14,7 +14,7 @@ namespace Example
             //Disappear();
             //WithSpinner();
             //BlockySpinner();
-            BlockySpinner2();
+            //BlockySpinner2();
             Marquee();
         }
 
@@ -24,7 +24,7 @@ namespace Example
             {
                 pb.PerformStep();
                 action(pb, ps, m);
-                //Console.Write("\n");
+                Console.Write("\n");
                 Thread.Sleep(20);
             }
 
@@ -92,7 +92,12 @@ namespace Example
 
         static void Marquee()
         {
-            Loop(new ProgressBar(10, 0, 1000, 1, 0), null, new Marquee("█▓▒░", 10, new MarqueeFormat(leftToRight: false, bounce: true, reverseTextOnBounce: true, noSpace: true)), (pb, ps, m) => 
+            //Loop(new ProgressBar(10, 0, 1000, 1, 0), null, new Marquee("█▓▒░", 20, new MarqueeFormat(leftToRight: false, bounce: true, reverseTextOnBounce: true, gap: 0)), (pb, ps, m) => 
+            //{
+            //    m.PerformStep();
+            //    Console.Write($"\r{pb} {m}");
+            //});
+            Loop(new ProgressBar(10, 0, 1000, 1, 0), null, new Marquee("Hello, World!", 30, new MarqueeFormat(leftToRight: false, bounce: true, reverseTextOnBounce: false)), (pb, ps, m) =>
             {
                 m.PerformStep();
                 Console.Write($"\r{pb} {m}");

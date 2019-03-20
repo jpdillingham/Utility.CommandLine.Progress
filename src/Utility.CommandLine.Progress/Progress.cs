@@ -82,9 +82,17 @@ namespace Utility.CommandLine.ProgressBar
             Format = format ?? new MarqueeFormat();
             CurrentPosition = Text.Length + Width;
 
-            if (Format.NoSpace)
+            SetText();
+        }
+
+        private void SetText()
+        {
+            if (Format.Gap.HasValue)
             {
-                _text = Text;
+                do
+                {
+                    _text += new string(Format.Empty, (int)Format.Gap) + Text;
+                } while (_text.Length < Width);
             }
             else
             {
@@ -106,9 +114,13 @@ namespace Utility.CommandLine.ProgressBar
             if (CurrentPosition == 0 && Format.Bounce)
             {
                 Reversed = !Reversed;
-                Text = new string(Text.Reverse().ToArray());
 
-                _text = new string(Format.Empty, Width) + Text;
+                if (Format.ReverseTextOnBounce)
+                {
+                    Text = new string(Text.Reverse().ToArray());
+                }
+
+                SetText();
             }
         }
 
@@ -143,7 +155,7 @@ namespace Utility.CommandLine.ProgressBar
 
     public class MarqueeFormat
     {
-        public MarqueeFormat(char empty = ' ', char? start = null, char? end = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ', bool bounce = false, bool reverseTextOnBounce = false, bool leftToRight = false, bool noSpace = false)
+        public MarqueeFormat(char empty = ' ', char? start = null, char? end = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ', bool bounce = false, bool reverseTextOnBounce = false, bool leftToRight = false, int? gap = null)
         {
             Empty = empty;
             Start = start;
@@ -154,7 +166,7 @@ namespace Utility.CommandLine.ProgressBar
             Bounce = bounce;
             ReverseTextOnBounce = reverseTextOnBounce;
             LeftToRight = leftToRight;
-            NoSpace = noSpace;
+            Gap = gap;
         }
 
         public char Empty { get; }
@@ -166,7 +178,7 @@ namespace Utility.CommandLine.ProgressBar
         public int PaddingRight { get; }
         public int PaddingLeft { get; }
         public bool LeftToRight { get; }
-        public bool NoSpace { get; }
+        public int? Gap { get; }
     }
 
     public class ProgressBar
