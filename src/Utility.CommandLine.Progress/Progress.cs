@@ -16,7 +16,7 @@ namespace Utility.CommandLine.ProgressBar
 
         public Spinner(params char[] frames)
         {
-            CurrentFrame = 0;
+            CurrentFrame = -1;
             Frames = frames;
         }
 
@@ -35,11 +35,16 @@ namespace Utility.CommandLine.ProgressBar
         public int CurrentPosition { get; private set; }
         public bool Reversed { get; private set; }
 
+        private string _text;
+
         public Marquee(string text = "", int width = 0, MarqueeFormat format = null)
         {
             Text = text;
             Width = width;
             Format = format ?? new MarqueeFormat();
+            CurrentPosition = Width;
+
+            _text = new string(format.Empty, width) + text;
         }
 
         public override string ToString()
@@ -50,74 +55,37 @@ namespace Utility.CommandLine.ProgressBar
             builder.Append(new string(Format.Pad, Format.PaddingLeft));
             builder.Append(Format.Start);
 
-            // todo: clean this up once the logic is clear
-            // todo: add the ability to scroll right to left
-            // todo: handle cases where input text is longer than width
-            if (Format.Bounce)
-            {
-                if (Reversed)
-                {
-                    CurrentPosition = --CurrentPosition % Width;
-                }
-                else
-                {
-                    CurrentPosition = ++CurrentPosition % Width;
-                }
-
-                if (CurrentPosition < 0)
-                {
-                    CurrentPosition = 1;
-                    Reversed = !Reversed;
-
-                    if (Format.ReverseTextOnBounce)
-                    {
-                        Text = new string(Text.Reverse().ToArray());
-                    }
-                }
-                if (Text.Length + CurrentPosition > width)
-                {
-                    CurrentPosition -= 2;
-                    Reversed = !Reversed;
-
-                    if (Format.ReverseTextOnBounce)
-                    {
-                        Text = new string(Text.Reverse().ToArray());
-                    }
-                }
-
-                builder.Append(new string(Format.Empty, CurrentPosition));
-                builder.Append(Text);
-                builder.Append(new string(Format.Empty, width - CurrentPosition - Text.Length));
-            }
-            else
-            {
-                CurrentPosition = ++CurrentPosition % Width;
-
-                if (Text.Length + CurrentPosition > width)
-                {
-                    var incomingTextLen = Text.Length - (width - CurrentPosition);
-                    builder.Append(Text.Substring(width - CurrentPosition, incomingTextLen));
-                    builder.Append(new string(Format.Empty, CurrentPosition - incomingTextLen));
-                    builder.Append(Text.Substring(0, width - CurrentPosition));
-                }
-                else
-                {
-                    builder.Append(new string(Format.Empty, CurrentPosition));
-                    builder.Append(Text);
-                    builder.Append(new string(Format.Empty, width - CurrentPosition - Text.Length));
-                }
-            }
-
+            builder.Append(new string(_text.Take(width).ToArray()));
+ 
             builder.Append(Format.End);
             builder.Append(new string(Format.Pad, Format.PaddingRight));
 
+            if (Format.LeftToRight)
+            {
+                RotateRight();
+            }
+            else
+            {
+                RotateLeft();
+            }
+
             return builder.ToString();
+        }
+
+        private void RotateLeft()
+        {
+            _text = new string(_text.Skip(1).ToArray()) + new string(_text.Take(1).ToArray());
+        }
+
+        private void RotateRight()
+        {
+            _text = new string(_text.Skip(_text.Length - 1).ToArray()) + new string(_text.Take(_text.Length - 1).ToArray());
         }
     }
 
     public class MarqueeFormat
     {
-        public MarqueeFormat(char empty = ' ', char? start = null, char? end = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ', bool bounce = false, bool reverseTextOnBounce = false, bool leftToRight = false)
+        public MarqueeFormat(char empty = '.', char? start = null, char? end = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ', bool bounce = false, bool reverseTextOnBounce = false, bool leftToRight = false)
         {
             Empty = empty;
             Start = start;
