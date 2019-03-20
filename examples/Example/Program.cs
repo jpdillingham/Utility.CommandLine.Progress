@@ -24,7 +24,8 @@ namespace Example
             {
                 pb.PerformStep();
                 action(pb, ps, m);
-                Thread.Sleep(10);
+                //Console.Write("\n");
+                Thread.Sleep(100);
             }
 
             Console.Write("\n");
@@ -87,7 +88,7 @@ namespace Example
 
         static void Marquee()
         {
-            Loop(new ProgressBar(10, 0, 1000, 1, 0), null, new Marquee("Hello, World!", 50, new MarqueeFormat(bounce: true, reverseTextOnBounce: true)), (pb, ps, m) => Console.Write($"\r{pb} {m}"));
+            Loop(new ProgressBar(10, 0, 1000, 1, 0), null, new Marquee("Hello, world!", 10, new MarqueeFormat(leftToRight: false, bounce: false, reverseTextOnBounce: true)), (pb, ps, m) => Console.Write($"\r{pb} {m}"));
         }
     }
 }
