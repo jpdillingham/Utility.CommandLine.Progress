@@ -72,6 +72,7 @@ namespace Utility.CommandLine.ProgressBar
         public MarqueeFormat Format { get; }
         public int CurrentPosition { get; private set; }
         public bool Reversed { get; private set; }
+        public int Gap { get; }
 
         private string _text;
 
@@ -81,23 +82,19 @@ namespace Utility.CommandLine.ProgressBar
             Width = width;
             Format = format ?? new MarqueeFormat();
             CurrentPosition = Text.Length + Width;
+            Gap = Format.Gap ?? Width;
 
             SetText();
         }
 
         private void SetText()
         {
-            if (Format.Gap.HasValue)
+            _text = string.Empty;
+
+            do
             {
-                do
-                {
-                    _text += new string(Format.Empty, (int)Format.Gap) + Text;
-                } while (_text.Length < Width);
-            }
-            else
-            {
-                _text = new string(Format.Empty, Width) + Text;
-            }
+                _text += new string(Format.Empty, Gap) + Text;
+            } while (_text.Length < Width);
         }
 
         public void PerformStep()
@@ -118,9 +115,8 @@ namespace Utility.CommandLine.ProgressBar
                 if (Format.ReverseTextOnBounce)
                 {
                     Text = new string(Text.Reverse().ToArray());
+                    SetText();
                 }
-
-                SetText();
             }
         }
 
