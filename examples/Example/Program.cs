@@ -25,10 +25,10 @@ namespace Example
                 pb.PerformStep();
                 action(pb, ps, m);
                 //Console.Write("\n");
-                Thread.Sleep(100);
+                Thread.Sleep(50);
             }
 
-            Console.Write("\n");
+            //Console.Write("\n");
         }
 
         static void FullWidth()
@@ -88,7 +88,7 @@ namespace Example
 
         static void Marquee()
         {
-            Loop(new ProgressBar(10, 0, 1000, 1, 0), null, new Marquee("Hello, world!", 10, new MarqueeFormat(leftToRight: false, bounce: false, reverseTextOnBounce: true)), (pb, ps, m) => Console.Write($"\r{pb} {m}"));
+            Loop(new ProgressBar(10, 0, 1000, 1, 0), null, new Marquee("███", 10, new MarqueeFormat(leftToRight: true, bounce: true, reverseTextOnBounce: true)), (pb, ps, m) => Console.Write($"\r{pb} {m}"));
         }
     }
 }
