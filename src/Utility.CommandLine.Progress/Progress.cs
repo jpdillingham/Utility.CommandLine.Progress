@@ -34,6 +34,16 @@ namespace Utility.CommandLine.ProgressBar
 
         public override string ToString()
         {
+            if (Format.HiddenWhen())
+            {
+                return string.Empty;
+            }
+
+            if (Format.EmptyWhen())
+            {
+                return new string(' ', Format.PaddingLeft + (Format.Start ?? 0) + 1 + (Format.End ?? 0) + Format.PaddingRight);
+            }
+
             var builder = new StringBuilder();
             builder.Append(new string(Format.Pad, Format.PaddingLeft));
             builder.Append(Format.Start);
@@ -49,13 +59,16 @@ namespace Utility.CommandLine.ProgressBar
 
     public class SpinnerFormat
     {
-        public SpinnerFormat(char? start = null, char? end = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ')
+        public SpinnerFormat(char empty = ' ', char? start = null, char? end = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ', Func<bool> emptyWhen = null, Func<bool> hiddenWhen = null)
         {
             Start = start;
             End = end;
             Pad = pad;
             PaddingLeft = paddingLeft;
             PaddingRight = paddingRight;
+
+            EmptyWhen = emptyWhen ?? (() => false);
+            HiddenWhen = hiddenWhen ?? (() => false);
         }
 
         public char? Start { get; }
@@ -63,6 +76,8 @@ namespace Utility.CommandLine.ProgressBar
         public char Pad { get; }
         public int PaddingRight { get; }
         public int PaddingLeft { get; }
+        public Func<bool> EmptyWhen { get; }
+        public Func<bool> HiddenWhen { get; }
     }
 
     public class Marquee
@@ -122,7 +137,17 @@ namespace Utility.CommandLine.ProgressBar
 
         public override string ToString()
         {
-            var width = Width < 1 ? Console.WindowWidth - Math.Abs(Width) - 4 : Width;
+            if (Format.HiddenWhen())
+            {
+                return string.Empty;
+            }
+
+            if (Format.EmptyWhen())
+            {
+                return new string(Format.Empty, Format.PaddingLeft + (Format.Start ?? 0) + Width + (Format.End ?? 0) + Format.PaddingRight);
+            }
+
+            var width = Width < 1 ? Console.WindowWidth - Math.Abs(Width) + 1: Width;
 
             var builder = new StringBuilder();
             builder.Append(new string(Format.Pad, Format.PaddingLeft));
@@ -151,7 +176,7 @@ namespace Utility.CommandLine.ProgressBar
 
     public class MarqueeFormat
     {
-        public MarqueeFormat(char empty = ' ', char? start = null, char? end = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ', bool bounce = false, bool reverseTextOnBounce = false, bool leftToRight = false, int? gap = null)
+        public MarqueeFormat(char empty = ' ', char? start = null, char? end = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ', bool bounce = false, bool reverseTextOnBounce = false, bool leftToRight = false, int? gap = null, Func<bool> emptyWhen = null, Func<bool> hiddenWhen = null)
         {
             Empty = empty;
             Start = start;
@@ -163,7 +188,13 @@ namespace Utility.CommandLine.ProgressBar
             ReverseTextOnBounce = reverseTextOnBounce;
             LeftToRight = leftToRight;
             Gap = gap;
+
+            EmptyWhen = emptyWhen ?? (() => false);
+            HiddenWhen = hiddenWhen ?? (() => false);
         }
+
+        public Func<bool> EmptyWhen { get; }
+        public Func<bool> HiddenWhen { get; }
 
         public char Empty { get; }
         public char? Start { get; }
@@ -228,8 +259,20 @@ namespace Utility.CommandLine.ProgressBar
 
         public override string ToString()
         {
-            var percentFull = Value / (double)Maximum;
+            if (Format.HiddenWhen())
+            {
+                return string.Empty;
+            }
+
             var width = Width < 1 ? Console.WindowWidth - Math.Abs(Width) - 4 : Width;
+
+            if (Format.EmptyWhen())
+            {
+                return new string(' ', Format.PaddingLeft + (Format.Start ?? 0) + width + (Format.End ?? 0) + Format.PaddingRight);
+            }
+
+
+            var percentFull = Value / (double)Maximum;
 
             var chars = (int)Math.Round(width * percentFull, 0);
 
@@ -248,7 +291,7 @@ namespace Utility.CommandLine.ProgressBar
 
     public class ProgressBarFormat
     {
-        public ProgressBarFormat(char empty = '░', char full = '█', char tip = '█', char? start = null, char? end = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ')
+        public ProgressBarFormat(char empty = '░', char full = '█', char tip = '█', char? start = null, char? end = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ', Func<bool> emptyWhen = null, Func<bool> hiddenWhen = null)
         {
             Empty = empty;
             Full = full;
@@ -258,6 +301,9 @@ namespace Utility.CommandLine.ProgressBar
             PaddingLeft = paddingLeft;
             PaddingRight = paddingRight;
             Pad = pad;
+
+            EmptyWhen = emptyWhen ?? (() => false);
+            HiddenWhen = hiddenWhen ?? (() => false);
         }
 
         public char Empty { get; }
@@ -268,5 +314,7 @@ namespace Utility.CommandLine.ProgressBar
         public char? End { get; }
         public int PaddingRight { get; }
         public int PaddingLeft { get; }
+        public Func<bool> EmptyWhen { get; }
+        public Func<bool> HiddenWhen { get; }
     }
 }
