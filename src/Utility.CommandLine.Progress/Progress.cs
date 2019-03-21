@@ -41,7 +41,7 @@ namespace Utility.CommandLine.ProgressBar
 
             if (Format.EmptyWhen())
             {
-                return new string(' ', Format.PaddingLeft + (Format.Left?.Length ?? 0) + 1 + (Format.Right?.Length ?? 0) + Format.PaddingRight);
+                return new string(Format.Empty, Format.PaddingLeft + (Format.Left?.Length ?? 0) + 1 + (Format.Right?.Length ?? 0) + Format.PaddingRight);
             }
 
             var builder = new StringBuilder();
@@ -57,27 +57,12 @@ namespace Utility.CommandLine.ProgressBar
         }
     }
 
-    public class SpinnerFormat
+    public class SpinnerFormat : ProgressFormat
     {
-        public SpinnerFormat(char empty = ' ', string left = null, string right = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ', Func<bool> emptyWhen = null, Func<bool> hiddenWhen = null)
+        public SpinnerFormat(char empty = '√', string left = null, string right = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ', Func<bool> emptyWhen = null, Func<bool> hiddenWhen = null)
+            : base(empty, left, right, paddingLeft, paddingRight, pad, emptyWhen, hiddenWhen)
         {
-            Left = left;
-            Right = right;
-            Pad = pad;
-            PaddingLeft = paddingLeft;
-            PaddingRight = paddingRight;
-
-            EmptyWhen = emptyWhen ?? (() => false);
-            HiddenWhen = hiddenWhen ?? (() => false);
         }
-
-        public string Left { get; }
-        public string Right { get; }
-        public char Pad { get; }
-        public int PaddingRight { get; }
-        public int PaddingLeft { get; }
-        public Func<bool> EmptyWhen { get; }
-        public Func<bool> HiddenWhen { get; }
     }
 
     public class Marquee
@@ -174,36 +159,19 @@ namespace Utility.CommandLine.ProgressBar
         }
     }
 
-    public class MarqueeFormat
+    public class MarqueeFormat : ProgressFormat
     {
         public MarqueeFormat(char empty = ' ', string left = null, string right = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ', bool bounce = false, bool reverseTextOnBounce = false, bool leftToRight = false, int? gap = null, Func<bool> emptyWhen = null, Func<bool> hiddenWhen = null)
+            : base(empty, left, right, paddingLeft, paddingRight, pad, emptyWhen, hiddenWhen)
         {
-            Empty = empty;
-            Left = left;
-            Right = right;
-            Pad = pad;
-            PaddingLeft = paddingLeft;
-            PaddingRight = paddingRight;
             Bounce = bounce;
             ReverseTextOnBounce = reverseTextOnBounce;
             LeftToRight = leftToRight;
             Gap = gap;
-
-            EmptyWhen = emptyWhen ?? (() => false);
-            HiddenWhen = hiddenWhen ?? (() => false);
         }
 
-        public Func<bool> EmptyWhen { get; }
-        public Func<bool> HiddenWhen { get; }
-
-        public char Empty { get; }
-        public string Left { get; }
-        public string Right { get; }
         public bool Bounce { get; }
-        public char Pad { get; }
         public bool ReverseTextOnBounce { get; }
-        public int PaddingRight { get; }
-        public int PaddingLeft { get; }
         public bool LeftToRight { get; }
         public int? Gap { get; }
     }
@@ -289,33 +257,17 @@ namespace Utility.CommandLine.ProgressBar
         }
     }
 
-    public class ProgressBarFormat
+    public class ProgressBarFormat : ProgressFormat
     {
         public ProgressBarFormat(char empty = '░', char full = '█', char tip = '█', string left = null, string right = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ', Func<bool> emptyWhen = null, Func<bool> hiddenWhen = null)
+            : base(empty, left, right, paddingLeft, paddingRight, pad, emptyWhen, hiddenWhen)
         {
-            Empty = empty;
             Full = full;
             Tip = tip;
-            Left = left;
-            Right = right;
-            PaddingLeft = paddingLeft;
-            PaddingRight = paddingRight;
-            Pad = pad;
-
-            EmptyWhen = emptyWhen ?? (() => false);
-            HiddenWhen = hiddenWhen ?? (() => false);
         }
 
-        public char Empty { get; }
         public char Full { get; }
         public char Tip { get; }
-        public char Pad { get; }
-        public string Left { get; }
-        public string Right { get; }
-        public int PaddingRight { get; }
-        public int PaddingLeft { get; }
-        public Func<bool> EmptyWhen { get; }
-        public Func<bool> HiddenWhen { get; }
     }
 
     public abstract class ProgressFormat

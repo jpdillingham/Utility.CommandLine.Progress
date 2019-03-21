@@ -24,7 +24,7 @@ namespace Example
             {
                 pb.Increment();
                 action(pb, ps, m);
-                Console.Write("\n");
+                //Console.Write("\n");
                 Thread.Sleep(25);
             }
 
@@ -93,11 +93,11 @@ namespace Example
         static void Marquee()
         {
             var progressBar = new ProgressBar(50, 0, 100, 1, 0);
-            Loop(progressBar, new Spinner(), new Marquee("█▓▒░", 20, new MarqueeFormat(hiddenWhen: () => progressBar.Complete, leftToRight: false, bounce: true, reverseTextOnBounce: true, gap: null)), (pb, ps, m) =>
+            Loop(progressBar, new Spinner(new SpinnerFormat('√', emptyWhen: () => progressBar.Complete)), new Marquee("█▓▒░", 20, new MarqueeFormat(emptyWhen: () => progressBar.Complete, leftToRight: false, bounce: true, reverseTextOnBounce: true, gap: null)), (pb, ps, m) =>
             {
                 m.Scroll();
                 ps.Spin();
-                Console.Write($"\r{pb} {m} {ps.ToString(blank: pb.Complete)}".PadRight(Console.WindowWidth - 1));
+                Console.Write($"\r{pb} {m} {ps}".PadRight(Console.WindowWidth - 1));
             });
             //Loop(new ProgressBar(10, 0, 1000, 1, 0), null, new Marquee("Hello, World!", 30, new MarqueeFormat(leftToRight: false, bounce: true, reverseTextOnBounce: false, gap:0)), (pb, ps, m) =>
             //{
