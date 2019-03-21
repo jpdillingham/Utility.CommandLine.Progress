@@ -317,4 +317,29 @@ namespace Utility.CommandLine.ProgressBar
         public Func<bool> EmptyWhen { get; }
         public Func<bool> HiddenWhen { get; }
     }
+
+    public abstract class ProgressFormat
+    {
+        public ProgressFormat(char empty = ' ', string left = null, string right = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ', Func<bool> emptyWhen = null, Func<bool> hiddenWhen = null)
+        {
+            Empty = empty;
+            Left = left;
+            Right = right;
+            PaddingLeft = paddingLeft;
+            PaddingRight = paddingRight;
+            Pad = pad;
+
+            EmptyWhen = emptyWhen ?? (() => false);
+            HiddenWhen = hiddenWhen ?? (() => false);
+        }
+
+        public char Empty { get; }
+        public char Pad { get; }
+        public string Left { get; }
+        public string Right { get; }
+        public int PaddingRight { get; }
+        public int PaddingLeft { get; }
+        public Func<bool> EmptyWhen { get; }
+        public Func<bool> HiddenWhen { get; }
+    }
 }
