@@ -6,7 +6,7 @@ namespace Utility.CommandLine.ProgressBar
 {
     public class Spinner
     {
-        public int CurrentFrame { get; private set; }
+        public int Frame { get; private set; }
         public char[] Frames { get; }
         public SpinnerFormat Format { get; }
 
@@ -22,14 +22,14 @@ namespace Utility.CommandLine.ProgressBar
 
         public Spinner(char[] frames, SpinnerFormat format = null)
         {
-            CurrentFrame = 0;
+            Frame = 0;
             Frames = frames;
             Format = format ?? new SpinnerFormat();
         }
 
-        public void PerformStep()
+        public void Spin()
         {
-            CurrentFrame = ++CurrentFrame % Frames.Length;
+            Frame = ++Frame % Frames.Length;
         }
 
         public override string ToString()
@@ -38,7 +38,7 @@ namespace Utility.CommandLine.ProgressBar
             builder.Append(new string(Format.Pad, Format.PaddingLeft));
             builder.Append(Format.Start);
 
-            builder.Append(Frames[CurrentFrame]);
+            builder.Append(Frames[Frame]);
 
             builder.Append(Format.End);
             builder.Append(new string(Format.Pad, Format.PaddingRight));
@@ -70,7 +70,7 @@ namespace Utility.CommandLine.ProgressBar
         public string Text { get; private set; }
         public int Width { get; }
         public MarqueeFormat Format { get; }
-        public int CurrentPosition { get; private set; }
+        public int Position { get; private set; }
         public bool Reversed { get; private set; }
         public int Gap { get; }
 
@@ -81,7 +81,7 @@ namespace Utility.CommandLine.ProgressBar
             Text = text;
             Width = width;
             Format = format ?? new MarqueeFormat();
-            CurrentPosition = Text.Length + Width;
+            Position = Text.Length + Width;
             Gap = Format.Gap ?? Width;
 
             SetText();
@@ -97,18 +97,18 @@ namespace Utility.CommandLine.ProgressBar
             } while (_text.Length < Width);
         }
 
-        public void PerformStep()
+        public void Scroll()
         {
             if (Format.LeftToRight ^ Reversed)
             {
-                RotateRight();
+                ScrollRight();
             }
             else
             {
-                RotateLeft();
+                ScrollLeft();
             }
 
-            if (CurrentPosition == 0 && Format.Bounce)
+            if (Position == 0 && Format.Bounce)
             {
                 Reversed = !Reversed;
 
@@ -136,16 +136,16 @@ namespace Utility.CommandLine.ProgressBar
             return builder.ToString();
         }
 
-        private void RotateLeft()
+        private void ScrollLeft()
         {
             _text = new string(_text.Skip(1).ToArray()) + new string(_text.Take(1).ToArray());
-            CurrentPosition = --CurrentPosition % (Text.Length + Width);
+            Position = --Position % (Text.Length + Width);
         }
 
-        private void RotateRight()
+        private void ScrollRight()
         {
             _text = new string(_text.Skip(_text.Length - 1).ToArray()) + new string(_text.Take(_text.Length - 1).ToArray());
-            CurrentPosition = ++CurrentPosition % (Text.Length + Width);
+            Position = ++Position % (Text.Length + Width);
         }
     }
 
@@ -216,18 +216,18 @@ namespace Utility.CommandLine.ProgressBar
             Format = format ?? new ProgressBarFormat();
         }
 
-        public void PerformStep()
+        public void Increment(int steps = 1)
         {
-            Value += Step;
+            Value += Step * steps;
+        }
+
+        public void Decrement(int steps = 1)
+        {
+            Value -= Step * steps;
         }
 
         public override string ToString()
         {
-            if (Complete && Format.HideWhenComplete)
-            {
-                return string.Empty;
-            }
-
             var percentFull = Value / (double)Maximum;
             var width = Width < 1 ? Console.WindowWidth - Math.Abs(Width) - 4 : Width;
 
@@ -248,20 +248,18 @@ namespace Utility.CommandLine.ProgressBar
 
     public class ProgressBarFormat
     {
-        public ProgressBarFormat(char empty = '░', char full = '█', char tip = '█', char? start = null, char? end = null, bool hideWhenComplete = false, int paddingLeft = 0, int paddingRight = 0, char pad = ' ')
+        public ProgressBarFormat(char empty = '░', char full = '█', char tip = '█', char? start = null, char? end = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ')
         {
             Empty = empty;
             Full = full;
             Tip = tip;
             Start = start;
             End = end;
-            HideWhenComplete = hideWhenComplete;
             PaddingLeft = paddingLeft;
             PaddingRight = paddingRight;
             Pad = pad;
         }
 
-        public bool HideWhenComplete { get; }
         public char Empty { get; }
         public char Full { get; }
         public char Tip { get; }
