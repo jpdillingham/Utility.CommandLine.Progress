@@ -92,6 +92,7 @@ namespace Example
 
         static void Marquee()
         {
+            // "⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
             var progressBar = new ProgressBar(50, 0, 100, 1, 0);
             Loop(progressBar, new Spinner(new SpinnerFormat('√', emptyWhen: () => progressBar.Complete)), new Marquee("█▓▒░", 20, new MarqueeFormat(emptyWhen: () => progressBar.Complete, leftToRight: false, bounce: true, reverseTextOnBounce: true, gap: null)), (pb, ps, m) =>
             {
