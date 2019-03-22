@@ -257,8 +257,24 @@ namespace Utility.CommandLine.ProgressBar
         }
     }
 
+    /// <summary>
+    ///     Formatting options for progress bar displays.
+    /// </summary>
     public class ProgressBarFormat : ProgressFormat
     {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="ProgressBarFormat"/> class.
+        /// </summary>
+        /// <param name="empty">The character representing empty space.</param>
+        /// <param name="full">The character representing 'full' or used space.</param>
+        /// <param name="tip">The character representing the 'tip' of the progress bar or the transition between full and empty.</param>
+        /// <param name="left">The string to prepend to the left side of the display.</param>
+        /// <param name="right">The string to append to the right side of the display.</param>
+        /// <param name="paddingLeft">The amount of padding, in number of characters, to prepend to the left side of the display.</param>
+        /// <param name="paddingRight">The amount of padding, in number of characters, to append to the right side of the display.</param>
+        /// <param name="pad">The character used for padding.</param>
+        /// <param name="emptyWhen">The function used to determine whether the display should be composed of only the <paramref name="empty"/> character.</param>
+        /// <param name="hiddenWhen">The function used to determine whether the display should be composed of only a zero-length string.</param>
         public ProgressBarFormat(char empty = '░', char full = '█', char tip = '█', string left = null, string right = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ', Func<bool> emptyWhen = null, Func<bool> hiddenWhen = null)
             : base(empty, left, right, paddingLeft, paddingRight, pad, emptyWhen, hiddenWhen)
         {
@@ -266,7 +282,14 @@ namespace Utility.CommandLine.ProgressBar
             Tip = tip;
         }
 
+        /// <summary>
+        ///     Gets the character representing 'full' or used space.
+        /// </summary>
         public char Full { get; }
+
+        /// <summary>
+        ///     Gets the character representing the 'tip' of the progress bar or the transition between full and empty.
+        /// </summary>
         public char Tip { get; }
     }
 
