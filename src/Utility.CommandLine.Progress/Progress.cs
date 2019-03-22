@@ -57,8 +57,22 @@ namespace Utility.CommandLine.ProgressBar
         }
     }
 
+    /// <summary>
+    ///     Formatting options for spinner displays.
+    /// </summary>
     public class SpinnerFormat : ProgressFormat
     {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Spinner"/> class.
+        /// </summary>
+        /// <param name="empty">The character representing empty space.</param>
+        /// <param name="left">The string to prepend to the left side of the display.</param>
+        /// <param name="right">The string to append to the right side of the display.</param>
+        /// <param name="paddingLeft">The amount of padding, in number of characters, to prepend to the left side of the display.</param>
+        /// <param name="paddingRight">The amount of padding, in number of characters, to append to the right side of the display.</param>
+        /// <param name="pad">The character used for padding.</param>
+        /// <param name="emptyWhen">The function used to determine whether the display should be composed of only the <paramref name="empty"/> character.</param>
+        /// <param name="hiddenWhen">The function used to determine whether the display should be composed of only a zero-length string.</param>
         public SpinnerFormat(char empty = '√', string left = null, string right = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ', Func<bool> emptyWhen = null, Func<bool> hiddenWhen = null)
             : base(empty, left, right, paddingLeft, paddingRight, pad, emptyWhen, hiddenWhen)
         {
