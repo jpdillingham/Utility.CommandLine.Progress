@@ -173,8 +173,26 @@ namespace Utility.CommandLine.ProgressBar
         }
     }
 
+    /// <summary>
+    ///     Formatting options for marquee displays.
+    /// </summary>
     public class MarqueeFormat : ProgressFormat
     {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="MarqueeFormat"/> class.
+        /// </summary>
+        /// <param name="empty">The character representing empty space.</param>
+        /// <param name="left">The string to prepend to the left side of the display.</param>
+        /// <param name="right">The string to append to the right side of the display.</param>
+        /// <param name="paddingLeft">The amount of padding, in number of characters, to prepend to the left side of the display.</param>
+        /// <param name="paddingRight">The amount of padding, in number of characters, to append to the right side of the display.</param>
+        /// <param name="pad">The character used for padding.</param>
+        /// <param name="bounce">A value indicating whether the scroll direction should reverse when the text scrolls past the display boundary.</param>
+        /// <param name="gap">The number of characters of <paramref name="empty"/> space between copies of the text.  Defaults to the width of the marquee when omitted.</param>
+        /// <param name="leftToRight">A value indicating whether the marquee should scroll from left to right.</param>
+        /// <param name="reverseTextOnBounce">A value indicating whether the text should be reversed on bounce.</param>
+        /// <param name="emptyWhen">The function used to determine whether the display should be composed of only the <paramref name="empty"/> character.</param>
+        /// <param name="hiddenWhen">The function used to determine whether the display should be composed of only a zero-length string.</param>
         public MarqueeFormat(char empty = ' ', string left = null, string right = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ', bool bounce = false, bool reverseTextOnBounce = false, bool leftToRight = false, int? gap = null, Func<bool> emptyWhen = null, Func<bool> hiddenWhen = null)
             : base(empty, left, right, paddingLeft, paddingRight, pad, emptyWhen, hiddenWhen)
         {
@@ -184,9 +202,24 @@ namespace Utility.CommandLine.ProgressBar
             Gap = gap;
         }
 
+        /// <summary>
+        ///     Gets a value indicating whether the scroll direction should reverse when the text scrolls past the display boundary.
+        /// </summary>
         public bool Bounce { get; }
+
+        /// <summary>
+        ///     Gets a value indicating whether the text should be reversed on bounce.
+        /// </summary>
         public bool ReverseTextOnBounce { get; }
+
+        /// <summary>
+        ///     Gets a value indicating whether the marquee should scroll from left to right.
+        /// </summary>
         public bool LeftToRight { get; }
+
+        /// <summary>
+        ///     Gets the number of characters of <see cref="ProgressFormat.Empty"/> space between copies of the text.
+        /// </summary>
         public int? Gap { get; }
     }
 
