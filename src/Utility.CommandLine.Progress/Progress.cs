@@ -270,8 +270,22 @@ namespace Utility.CommandLine.ProgressBar
         public char Tip { get; }
     }
 
+    /// <summary>
+    ///     Formatting options for progress displays.
+    /// </summary>
     public abstract class ProgressFormat
     {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="ProgressFormat"/> class.
+        /// </summary>
+        /// <param name="empty">The character representing empty space.</param>
+        /// <param name="left">The string to prepend to the left side of the display.</param>
+        /// <param name="right">The string to append to the right side of the display.</param>
+        /// <param name="paddingLeft">The amount of padding, in number of characters, to prepend to the left side of the display.</param>
+        /// <param name="paddingRight">The amount of padding, in number of characters, to append to the right side of the display.</param>
+        /// <param name="pad">The character used for padding.</param>
+        /// <param name="emptyWhen">The function used to determine whether the display should be composed of only the <paramref name="empty"/> character.</param>
+        /// <param name="hiddenWhen">The function used to determine whether the display should be composed of only a zero-length string.</param>
         public ProgressFormat(char empty = ' ', string left = null, string right = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ', Func<bool> emptyWhen = null, Func<bool> hiddenWhen = null)
         {
             Empty = empty;
@@ -285,13 +299,44 @@ namespace Utility.CommandLine.ProgressBar
             HiddenWhen = hiddenWhen ?? (() => false);
         }
 
+        /// <summary>
+        ///     Gets the character representing empty space.
+        /// </summary>
         public char Empty { get; }
+
+        /// <summary>
+        ///     Gets the character used for padding.
+        /// </summary>
         public char Pad { get; }
+
+        /// <summary>
+        ///     Gets the string to prepend to the left side of the display.
+        /// </summary>
         public string Left { get; }
+
+        /// <summary>
+        ///     Gets the string to append to the right side of the display.
+        /// </summary>
         public string Right { get; }
+
+        /// <summary>
+        ///     Gets the amount of padding, in number of characters, to append to the right side of the display.
+        /// </summary>
         public int PaddingRight { get; }
+
+        /// <summary>
+        ///     Gets the amount of padding, in number of characters, to prepend to the left side of the display.
+        /// </summary>
         public int PaddingLeft { get; }
+
+        /// <summary>
+        ///     Gets the function used to determine whether the display should be composed of only the <see cref="Empty"/> character.
+        /// </summary>
         public Func<bool> EmptyWhen { get; }
+
+        /// <summary>
+        ///     Gets the function used to determine whether the display should be composed of only a zero-length string.
+        /// </summary>
         public Func<bool> HiddenWhen { get; }
     }
 }
