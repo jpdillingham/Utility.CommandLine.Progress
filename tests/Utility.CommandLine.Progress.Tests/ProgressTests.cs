@@ -32,6 +32,7 @@ namespace Utility.CommandLine.ProgressBar.Tests
 {
     using AutoFixture.Xunit2;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using Utility.CommandLine.Progress;
     using Xunit;
@@ -100,6 +101,63 @@ namespace Utility.CommandLine.ProgressBar.Tests
 
             Assert.Equal(1, s.Frame);
             Assert.Equal(frames.ToArray()[initialFrame + 1].ToString(), s.ToString());
+        }
+
+        [Fact(DisplayName = "Spinner.Spin advances all frames in order")]
+        public void Spinner_Spin_Advances_All_Frames_In_Order()
+        {
+            var frames = new List<string>();
+
+            var s = new Spinner('a', 'b', 'c');
+
+            for (int i = 0; i < 5; i++)
+            {
+                frames.Add(s.ToString());
+                s.Spin();
+            }
+
+            Assert.Equal("a", frames[0]);
+            Assert.Equal("b", frames[1]);
+            Assert.Equal("c", frames[2]);
+            Assert.Equal("a", frames[3]);
+        }
+
+        [Fact(DisplayName = "Spinner respects EmptyWhen")]
+        public void Spinner_Respects_EmptyWhen()
+        {
+            var empty = false;
+            var s = new Spinner(new SpinnerFormat(emptyWhen: () => empty));
+
+            var empty1 = s.ToString();
+
+            empty = true;
+            var empty2 = s.ToString();
+
+            Assert.NotEqual(s.Format.Empty.ToString(), empty1);
+            Assert.Equal(s.Format.Empty.ToString(), empty2);
+        }
+
+        [Fact(DisplayName = "Spinner respects HiddenWhen")]
+        public void Spinner_Respects_HiddenWhen()
+        {
+            var hidden = false;
+            var s = new Spinner(new SpinnerFormat(hiddenWhen: () => hidden));
+
+            var hidden1 = s.ToString();
+
+            hidden = true;
+            var hidden2 = s.ToString();
+
+            Assert.NotEqual(string.Empty, hidden1);
+            Assert.Equal(string.Empty, hidden2);
+        }
+
+        [Fact(DisplayName = "Spinner returns formatted output")]
+        public void Spinner_Returns_Formatted_Output()
+        {
+            var s = new Spinner(new SpinnerFormat(left: "[", right: "]", paddingLeft: 1, paddingRight: 1, pad: '.'));
+
+            Assert.Equal(".[-].", s.ToString());
         }
     }
 }
