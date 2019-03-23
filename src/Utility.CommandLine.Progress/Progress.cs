@@ -422,7 +422,7 @@ namespace Utility.CommandLine.Progress
         /// <param name="hiddenWhen">
         ///     The function used to determine whether the display should be composed of only a zero-length string.
         /// </param>
-        public ProgressFormat(char empty = ' ', string left = null, string right = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ', Func<bool> emptyWhen = null, Func<bool> hiddenWhen = null)
+        protected ProgressFormat(char empty = ' ', string left = null, string right = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ', Func<bool> emptyWhen = null, Func<bool> hiddenWhen = null)
         {
             Empty = empty;
             Left = left;
@@ -507,7 +507,7 @@ namespace Utility.CommandLine.Progress
         public Spinner(IEnumerable<char> frames, SpinnerFormat format = null)
         {
             Frame = 0;
-            Frames = frames.ToArray();
+            Frames = frames;
             Format = format ?? new SpinnerFormat();
         }
 

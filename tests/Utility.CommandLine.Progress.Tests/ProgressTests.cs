@@ -32,6 +32,7 @@ namespace Utility.CommandLine.ProgressBar.Tests
 {
     using AutoFixture.Xunit2;
     using System;
+    using System.Linq;
     using Utility.CommandLine.Progress;
     using Xunit;
 
@@ -63,6 +64,42 @@ namespace Utility.CommandLine.ProgressBar.Tests
 
             Assert.Equal(e, f.EmptyWhen);
             Assert.Equal(h, f.HiddenWhen);
+        }
+
+        [Fact(DisplayName = "Spinner instantiates with defaults and given values")]
+        public void Spinner_Instantiates_With_Defaults_And_Given_Values()
+        {
+            var s1 = new Spinner();
+            var s2 = new Spinner('+', '-');
+
+            var fmt = new SpinnerFormat();
+            var s3 = new Spinner(new[] { 'a', 'b', 'c' }, fmt);
+
+            Assert.Equal(new[] { '-', '\\', '|', '/' }, s1.Frames);
+            Assert.Equal(0, s1.Frame);
+
+            Assert.Equal(new[] { '+', '-' }, s2.Frames);
+
+            Assert.Equal(new[] { 'a', 'b', 'c' }, s3.Frames);
+            Assert.Equal(fmt, s3.Format);
+        }
+
+        [Fact(DisplayName = "Spinner.Spin advances frame")]
+        public void Spinner_Spin_Advances_Frame()
+        {
+            var s = new Spinner();
+
+            var frames = s.Frames;
+            var initialString = s.ToString();
+            var initialFrame = s.Frame;
+
+            s.Spin();
+
+            Assert.Equal(0, initialFrame);
+            Assert.Equal(frames.ToArray()[initialFrame].ToString(), initialString);
+
+            Assert.Equal(1, s.Frame);
+            Assert.Equal(frames.ToArray()[initialFrame + 1].ToString(), s.ToString());
         }
     }
 }
