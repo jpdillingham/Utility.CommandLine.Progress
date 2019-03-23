@@ -58,9 +58,12 @@ namespace Utility.CommandLine.Progress
         }
     }
 
+    /// <summary>
+    ///     A progress indicator that scrolls a given string.
+    /// </summary>
     public class Marquee
     {
-        private string displayText;
+        private string internalText;
 
         public Marquee(string text, int width = 0, MarqueeFormat format = null)
         {
@@ -126,7 +129,7 @@ namespace Utility.CommandLine.Progress
             builder.Append(new string(Format.Pad, Format.PaddingLeft));
             builder.Append(Format.Left);
 
-            builder.Append(new string(displayText.Take(width).ToArray()));
+            builder.Append(new string(internalText.Take(width).ToArray()));
 
             builder.Append(Format.Right);
             builder.Append(new string(Format.Pad, Format.PaddingRight));
@@ -136,20 +139,20 @@ namespace Utility.CommandLine.Progress
 
         private void ScrollLeft()
         {
-            displayText = new string(displayText.Skip(1).ToArray()) + new string(displayText.Take(1).ToArray());
+            internalText = new string(internalText.Skip(1).ToArray()) + new string(internalText.Take(1).ToArray());
             Position = --Position % (Text.Length + Width);
         }
 
         private void ScrollRight()
         {
-            displayText = new string(displayText.Skip(displayText.Length - 1).ToArray()) + new string(displayText.Take(displayText.Length - 1).ToArray());
+            internalText = new string(internalText.Skip(internalText.Length - 1).ToArray()) + new string(internalText.Take(internalText.Length - 1).ToArray());
             Position = ++Position % (Text.Length + Width);
         }
 
         private void SetText()
         {
             var builder = new StringBuilder();
-            displayText = string.Empty;
+            internalText = string.Empty;
 
             do
             {
@@ -222,9 +225,12 @@ namespace Utility.CommandLine.Progress
         public bool ReverseTextOnBounce { get; }
     }
 
+    /// <summary>
+    ///     A progress indicator that fills a string with characters representing complete and incomplete portions of a given range.
+    /// </summary>
     public class ProgressBar
     {
-        private int _value;
+        private int internalValue;
 
         public ProgressBar(int width = 0, int minimum = 0, int maximum = 100, int step = 1, int value = 0, ProgressBarFormat format = null)
         {
@@ -252,17 +258,17 @@ namespace Utility.CommandLine.Progress
         {
             get
             {
-                return _value;
+                return internalValue;
             }
 
             set
             {
                 if (value > Maximum || value < Minimum)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(Value), value, $"Value must be between {Minimum} and {Maximum}, inclusive.");
+                    throw new ArgumentOutOfRangeException($"Value must be between {Minimum} and {Maximum}, inclusive.");
                 }
 
-                _value = value;
+                internalValue = value;
             }
         }
 
@@ -433,6 +439,9 @@ namespace Utility.CommandLine.Progress
         public string Right { get; }
     }
 
+    /// <summary>
+    ///     A progress indicator that cycles through a given array of characters.
+    /// </summary>
     public class Spinner
     {
         public Spinner(SpinnerFormat format = null)
@@ -492,7 +501,7 @@ namespace Utility.CommandLine.Progress
     public class SpinnerFormat : ProgressFormat
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="Spinner"/> class.
+        ///     Initializes a new instance of the <see cref="SpinnerFormat"/> class.
         /// </summary>
         /// <param name="empty">The character representing empty space.</param>
         /// <param name="left">The string to prepend to the left side of the display.</param>
