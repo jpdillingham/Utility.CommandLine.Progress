@@ -2,14 +2,35 @@
 using System.Linq;
 using System.Text;
 
-namespace Utility.CommandLine.ProgressBar
+namespace Utility.CommandLine.Progress
 {
+    public static class ProgressUtility
+    {
+        public static bool ConsoleAvailable()
+        {
+            try
+            {
+                var _ = Console.WindowWidth;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+    }
+
     public class Marquee
     {
         private string _text;
 
         public Marquee(string text, int width = 0, MarqueeFormat format = null)
         {
+            if (width < 0 && !ProgressUtility.ConsoleAvailable())
+            {
+                throw new ArgumentOutOfRangeException($"Unable to use dynamic width (width < 0) outside of a Console context.  Specify a fixed width.");
+            }
+
             Text = text;
             Width = width;
             Format = format ?? new MarqueeFormat();
@@ -167,6 +188,11 @@ namespace Utility.CommandLine.ProgressBar
 
         public ProgressBar(int width = 0, int minimum = 0, int maximum = 100, int step = 1, int value = 0, ProgressBarFormat format = null)
         {
+            if (width < 0 && !ProgressUtility.ConsoleAvailable())
+            {
+                throw new ArgumentOutOfRangeException($"Unable to use dynamic width (width < 0) outside of a Console context.  Specify a fixed width.");
+            }
+
             Width = width;
             Minimum = minimum;
             Maximum = maximum;
