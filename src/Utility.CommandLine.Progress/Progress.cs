@@ -65,6 +65,12 @@ namespace Utility.CommandLine.Progress
     {
         private string internalText;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Marquee"/> class.
+        /// </summary>
+        /// <param name="text">The text to scroll.</param>
+        /// <param name="width">The width of the marquee, in number of characters.</param>
+        /// <param name="format">The marquee format.</param>
         public Marquee(string text, int width = 0, MarqueeFormat format = null)
         {
             if (width < 0 && !ProgressUtility.ConsoleAvailable())
@@ -81,13 +87,39 @@ namespace Utility.CommandLine.Progress
             SetText();
         }
 
+        /// <summary>
+        ///     Gets the marquee format.
+        /// </summary>
         public MarqueeFormat Format { get; }
+
+        /// <summary>
+        ///     Gets the gap between repetitions of the <see cref="Text"/>.
+        /// </summary>
         public int Gap { get; }
+
+        /// <summary>
+        ///     Gets the current position of the end of the <see cref="Text"/> along the <see cref="Width"/>.
+        /// </summary>
         public int Position { get; private set; }
+
+        /// <summary>
+        ///     Gets a value indicating whether the scrolling direction is reversed from the original direction.
+        /// </summary>
         public bool Reversed { get; private set; }
+
+        /// <summary>
+        ///     Gets the text to scroll.
+        /// </summary>
         public string Text { get; private set; }
+
+        /// <summary>
+        ///     Gets the width of the marquee, in number of characters.
+        /// </summary>
         public int Width { get; }
 
+        /// <summary>
+        ///     Scrolls the marquee one character to the left or right, depending on formatting options.
+        /// </summary>
         public void Scroll()
         {
             if (Format.LeftToRight ^ Reversed)
@@ -111,6 +143,10 @@ namespace Utility.CommandLine.Progress
             }
         }
 
+        /// <summary>
+        ///     Returns the current display text of the marquee.
+        /// </summary>
+        /// <returns>The current display text of the marquee.</returns>
         public override string ToString()
         {
             if (Format.HiddenWhen())
