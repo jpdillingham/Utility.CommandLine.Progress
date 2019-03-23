@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading;
-using Utility.CommandLine.ProgressBar;
+using Utility.CommandLine.Progress;
 
 namespace Example
 {

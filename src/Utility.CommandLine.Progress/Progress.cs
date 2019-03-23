@@ -1,17 +1,55 @@
-﻿using System;
-using System.Linq;
-using System.Text;
+﻿/*
+  █▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀  ▀  ▀      ▀▀
+  █  The MIT License (MIT)
+  █
+  █  Copyright (c) 2019 JP Dillingham (jp@dillingham.ws)
+  █
+  █  Permission is hereby granted, free of charge, to any person obtaining a copy
+  █  of this software and associated documentation files (the "Software"), to deal
+  █  in the Software without restriction, including without limitation the rights
+  █  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  █  copies of the Software, and to permit persons to whom the Software is
+  █  furnished to do so, subject to the following conditions:
+  █
+  █  The above copyright notice and this permission notice shall be included in all
+  █  copies or substantial portions of the Software.
+  █
+  █  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  █  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  █  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  █  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  █  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  █  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  █  SOFTWARE.
+  █
+  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀  ▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀██
+                                                                                               ██
+                                                                                           ▀█▄ ██ ▄█▀
+                                                                                             ▀████▀
+                                                                                               ▀▀                            */
 
 namespace Utility.CommandLine.Progress
 {
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
+    using System.Text;
+
+    /// <summary>
+    ///     Provides utility method(s) for the Progress namespace.
+    /// </summary>
     public static class ProgressUtility
     {
+        /// <summary>
+        ///     Returns a value incidating whether <see cref="Console"/> is available to the current execution context.
+        /// </summary>
+        /// <returns>A value indicating whether <see cref="Console"/> is available to the current execution context.</returns>
+        [ExcludeFromCodeCoverage]
         public static bool ConsoleAvailable()
         {
             try
             {
-                var _ = Console.WindowWidth;
-                return true;
+                return Console.WindowWidth > 0;
             }
             catch (Exception)
             {
@@ -22,7 +60,7 @@ namespace Utility.CommandLine.Progress
 
     public class Marquee
     {
-        private string _text;
+        private string displayText;
 
         public Marquee(string text, int width = 0, MarqueeFormat format = null)
         {
@@ -88,7 +126,7 @@ namespace Utility.CommandLine.Progress
             builder.Append(new string(Format.Pad, Format.PaddingLeft));
             builder.Append(Format.Left);
 
-            builder.Append(new string(_text.Take(width).ToArray()));
+            builder.Append(new string(displayText.Take(width).ToArray()));
 
             builder.Append(Format.Right);
             builder.Append(new string(Format.Pad, Format.PaddingRight));
@@ -98,24 +136,26 @@ namespace Utility.CommandLine.Progress
 
         private void ScrollLeft()
         {
-            _text = new string(_text.Skip(1).ToArray()) + new string(_text.Take(1).ToArray());
+            displayText = new string(displayText.Skip(1).ToArray()) + new string(displayText.Take(1).ToArray());
             Position = --Position % (Text.Length + Width);
         }
 
         private void ScrollRight()
         {
-            _text = new string(_text.Skip(_text.Length - 1).ToArray()) + new string(_text.Take(_text.Length - 1).ToArray());
+            displayText = new string(displayText.Skip(displayText.Length - 1).ToArray()) + new string(displayText.Take(displayText.Length - 1).ToArray());
             Position = ++Position % (Text.Length + Width);
         }
 
         private void SetText()
         {
-            _text = string.Empty;
+            var builder = new StringBuilder();
+            displayText = string.Empty;
 
             do
             {
-                _text += new string(Format.Empty, Gap) + Text;
-            } while (_text.Length < Width);
+                builder.Append(new string(Format.Empty, Gap));
+                builder.Append(Text);
+            } while (builder.Length < Width);
         }
     }
 
