@@ -31,6 +31,7 @@
 namespace Utility.CommandLine.Progress
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Text;
@@ -480,32 +481,63 @@ namespace Utility.CommandLine.Progress
     /// </summary>
     public class Spinner
     {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Spinner"/> class.
+        /// </summary>
+        /// <param name="format">The spinner format.</param>
         public Spinner(SpinnerFormat format = null)
             : this(new[] { '-', '\\', '|', '/' }, format)
         {
         }
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Spinner"/> class.
+        /// </summary>
+        /// <param name="frames">The array of characters through which to cycle.</param>
         public Spinner(params char[] frames)
             : this(frames, null)
         {
         }
 
-        public Spinner(char[] frames, SpinnerFormat format = null)
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Spinner"/> class.
+        /// </summary>
+        /// <param name="frames">The array of characters through which to cycle.</param>
+        /// <param name="format">The spinner format.</param>
+        public Spinner(IEnumerable<char> frames, SpinnerFormat format = null)
         {
             Frame = 0;
-            Frames = frames;
+            Frames = frames.ToArray();
             Format = format ?? new SpinnerFormat();
         }
 
+        /// <summary>
+        ///     Gets the spinner format.
+        /// </summary>
         public SpinnerFormat Format { get; }
-        public int Frame { get; private set; }
-        public char[] Frames { get; }
 
+        /// <summary>
+        ///     Gets the offset of the current frame.
+        /// </summary>
+        public int Frame { get; private set; }
+
+        /// <summary>
+        ///     Gets the array of characters through which to cycle.
+        /// </summary>
+        public IEnumerable<char> Frames { get; }
+
+        /// <summary>
+        ///     Advances the spinner by one character.
+        /// </summary>
         public void Spin()
         {
-            Frame = ++Frame % Frames.Length;
+            Frame = ++Frame % Frames.Count();
         }
 
+        /// <summary>
+        ///     Returns the current display text of the spinner.
+        /// </summary>
+        /// <returns>The current display text of the spinner.</returns>
         public override string ToString()
         {
             if (Format.HiddenWhen())
@@ -522,7 +554,7 @@ namespace Utility.CommandLine.Progress
             builder.Append(new string(Format.Pad, Format.PaddingLeft));
             builder.Append(Format.Left);
 
-            builder.Append(Frames[Frame]);
+            builder.Append(Frames.ToArray()[Frame]);
 
             builder.Append(Format.Right);
             builder.Append(new string(Format.Pad, Format.PaddingRight));
