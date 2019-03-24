@@ -166,7 +166,14 @@ namespace Utility.CommandLine.Progress
             builder.Append(new string(Format.Pad, Format.PaddingLeft));
             builder.Append(Format.Left);
 
-            builder.Append(new string(internalText.Take(width).ToArray()));
+            if (Format.CompleteWhen())
+            {
+                builder.Append(Format.Complete.PadRight(width, Format.Pad));
+            }
+            else
+            {
+                builder.Append(new string(internalText.Take(width).ToArray()));
+            }
 
             builder.Append(Format.Right);
             builder.Append(new string(Format.Pad, Format.PaddingRight));
@@ -571,7 +578,14 @@ namespace Utility.CommandLine.Progress
             builder.Append(new string(Format.Pad, Format.PaddingLeft));
             builder.Append(Format.Left);
 
-            builder.Append(Frames.ToArray()[Frame]);
+            if (Format.CompleteWhen())
+            {
+                builder.Append(Format.Complete);
+            }
+            else
+            {
+                builder.Append(Frames.ToArray()[Frame]);
+            }
 
             builder.Append(Format.Right);
             builder.Append(new string(Format.Pad, Format.PaddingRight));
