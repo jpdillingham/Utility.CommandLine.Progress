@@ -72,13 +72,8 @@ namespace Utility.CommandLine.Progress
         /// <param name="text">The text to scroll.</param>
         /// <param name="width">The width of the marquee, in number of characters.</param>
         /// <param name="format">The marquee format.</param>
-        public Marquee(string text, int width = 0, MarqueeFormat format = null)
+        public Marquee(string text, int width, MarqueeFormat format = null)
         {
-            if (width < 0 && !ProgressUtility.ConsoleAvailable())
-            {
-                throw new ArgumentOutOfRangeException($"Unable to use dynamic width (width < 0) outside of a Console context.  Specify a fixed width.");
-            }
-
             Text = text;
             Width = width;
             Format = format ?? new MarqueeFormat();
@@ -157,7 +152,7 @@ namespace Utility.CommandLine.Progress
 
             if (Format.EmptyWhen())
             {
-                return new string(Format.Empty, Format.PaddingLeft + (Format.Left?.Length ?? 0) + Width + (Format.Right?.Length ?? 0) + Format.PaddingRight);
+                return new string(Format.Empty, Format.Width + Width);
             }
 
             var width = Width < 1 ? Console.WindowWidth - Math.Abs(Width) + 1 : Width;
@@ -352,23 +347,24 @@ namespace Utility.CommandLine.Progress
                 return string.Empty;
             }
 
-            var width = Width < 1 ? Console.WindowWidth - Math.Abs(Width) - 4 : Width;
+            var consoleWidth = Console.WindowWidth - 1;
+            var barWidth = Width < 1 ? consoleWidth - Format.Width - 1 + Width : Width;
 
             if (Format.EmptyWhen())
             {
-                return new string(' ', Format.PaddingLeft + (Format.Left?.Length ?? 0) + width + (Format.Right?.Length ?? 0) + Format.PaddingRight);
+                return new string(' ', Format.Width + barWidth);
             }
 
             var percentFull = Value / (double)Maximum;
 
-            var chars = (int)Math.Round(width * percentFull, 0);
+            var chars = (int)Math.Round(barWidth * percentFull, 0);
 
             var builder = new StringBuilder();
             builder.Append(new string(Format.Pad, Format.PaddingLeft));
             builder.Append(Format.Left);
             builder.Append(new string(Format.Full, chars));
-            builder.Append(chars > 0 ? chars == width ? Format.Full : Format.Tip : Format.Empty);
-            builder.Append(new string(Format.Empty, width - chars));
+            builder.Append(chars > 0 ? chars == barWidth ? Format.Full : Format.Tip : Format.Empty);
+            builder.Append(new string(Format.Empty, barWidth - chars));
             builder.Append(Format.Right);
             builder.Append(new string(' ', Format.PaddingRight));
 
@@ -498,6 +494,8 @@ namespace Utility.CommandLine.Progress
         ///     Gets the string to append to the right side of the display.
         /// </summary>
         public string Right { get; }
+
+        public int Width => PaddingLeft + (Left?.Length ?? 0) + (Right?.Length ?? 0) + PaddingRight;
     }
 
     /// <summary>
@@ -520,6 +518,11 @@ namespace Utility.CommandLine.Progress
         /// <param name="frames">The array of characters through which to cycle.</param>
         public Spinner(params char[] frames)
             : this(frames, null)
+        {
+        }
+
+        public Spinner(string frames, SpinnerFormat format = null)
+            : this(frames.ToCharArray(), format)
         {
         }
 
