@@ -64,6 +64,7 @@ namespace Utility.CommandLine.ProgressBar.Tests
             Assert.Equal(paddingLeft, f.PaddingLeft);
             Assert.Equal(paddingRight, f.PaddingRight);
             Assert.Equal(pad, f.Pad);
+            Assert.Equal(paddingLeft + paddingRight + left.Length + right.Length, f.Width);
 
             Assert.Equal(c, f.CompleteWhen);
             Assert.Equal(e, f.EmptyWhen);
