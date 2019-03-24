@@ -348,7 +348,7 @@ namespace Utility.CommandLine.Progress
             }
 
             var consoleWidth = Console.WindowWidth - 1;
-            var barWidth = Width < 1 ? consoleWidth - Format.Width - 1 + Width : Width;
+            var barWidth = Width < 1 ? consoleWidth - Format.Width + Width : Width;
 
             if (Format.EmptyWhen())
             {
@@ -357,14 +357,22 @@ namespace Utility.CommandLine.Progress
 
             var percentFull = Value / (double)Maximum;
 
-            var chars = (int)Math.Round(barWidth * percentFull, 0);
+            var fullChars = (int)Math.Round(barWidth * percentFull, 0);
+            var emptyChars = barWidth - fullChars;
+            var showTip = false;
+
+            if (fullChars > 0 && fullChars < barWidth)
+            {
+                showTip = true;
+                fullChars--;
+            }
 
             var builder = new StringBuilder();
             builder.Append(new string(Format.Pad, Format.PaddingLeft));
             builder.Append(Format.Left);
-            builder.Append(new string(Format.Full, chars));
-            builder.Append(chars > 0 ? chars == barWidth ? Format.Full : Format.Tip : Format.Empty);
-            builder.Append(new string(Format.Empty, barWidth - chars));
+            builder.Append(new string(Format.Full, fullChars));
+            builder.Append(showTip ? Format.Tip : Format.Empty);
+            builder.Append(new string(Format.Empty, emptyChars));
             builder.Append(Format.Right);
             builder.Append(new string(' ', Format.PaddingRight));
 
