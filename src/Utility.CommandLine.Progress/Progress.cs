@@ -189,13 +189,14 @@ namespace Utility.CommandLine.Progress
         private void SetText()
         {
             var builder = new StringBuilder();
-            internalText = string.Empty;
 
             do
             {
                 builder.Append(new string(Format.Empty, Gap));
                 builder.Append(Text);
             } while (builder.Length < Width);
+
+            internalText = builder.ToString();
         }
     }
 
@@ -572,6 +573,7 @@ namespace Utility.CommandLine.Progress
         ///     Initializes a new instance of the <see cref="SpinnerFormat"/> class.
         /// </summary>
         /// <param name="empty">The character representing empty space.</param>
+        /// <param name="complete">The character to display when <paramref name="completeWhen"/> evaluates to true.</param>
         /// <param name="left">The string to prepend to the left side of the display.</param>
         /// <param name="right">The string to append to the right side of the display.</param>
         /// <param name="paddingLeft">
@@ -581,15 +583,30 @@ namespace Utility.CommandLine.Progress
         ///     The amount of padding, in number of characters, to append to the right side of the display.
         /// </param>
         /// <param name="pad">The character used for padding.</param>
+        /// <param name="completeWhen">
+        ///     The function used to determine whether the display should be composed of only the <paramref name="complete"/> character..
+        /// </param>
         /// <param name="emptyWhen">
         ///     The function used to determine whether the display should be composed of only the <paramref name="empty"/> character.
         /// </param>
         /// <param name="hiddenWhen">
         ///     The function used to determine whether the display should be composed of only a zero-length string.
         /// </param>
-        public SpinnerFormat(char empty = '√', string left = null, string right = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ', Func<bool> emptyWhen = null, Func<bool> hiddenWhen = null)
+        public SpinnerFormat(char empty = ' ', char complete = '√', string left = null, string right = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ', Func<bool> completeWhen = null, Func<bool> emptyWhen = null, Func<bool> hiddenWhen = null)
             : base(empty, left, right, paddingLeft, paddingRight, pad, emptyWhen, hiddenWhen)
         {
+            Complete = complete;
+            CompleteWhen = completeWhen ?? (() => false);
         }
+
+        /// <summary>
+        ///     Gets the function used to determine whether the display should be composed of only the <see cref="Complete"/> character.
+        /// </summary>
+        public Func<bool> CompleteWhen { get; }
+
+        /// <summary>
+        ///     Gets the character to display when <see cref="CompleteWhen"/> evaluates to true.
+        /// </summary>
+        public char Complete { get; }
     }
 }
