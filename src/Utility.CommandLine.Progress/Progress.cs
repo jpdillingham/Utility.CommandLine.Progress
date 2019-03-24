@@ -348,7 +348,7 @@ namespace Utility.CommandLine.Progress
             }
 
             var consoleWidth = Console.WindowWidth - 1;
-            var barWidth = Width < 1 ? consoleWidth - Format.Width + Width : Width;
+            var barWidth = Width < 1 ? consoleWidth - Format.Width - Math.Abs(Width) : Width;
 
             if (Format.EmptyWhen())
             {
@@ -371,7 +371,12 @@ namespace Utility.CommandLine.Progress
             builder.Append(new string(Format.Pad, Format.PaddingLeft));
             builder.Append(Format.Left);
             builder.Append(new string(Format.Full, fullChars));
-            builder.Append(showTip ? Format.Tip : Format.Empty);
+
+            if (showTip)
+            {
+                builder.Append(Format.Tip);
+            }
+
             builder.Append(new string(Format.Empty, emptyChars));
             builder.Append(Format.Right);
             builder.Append(new string(' ', Format.PaddingRight));
