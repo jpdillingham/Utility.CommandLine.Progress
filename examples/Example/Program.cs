@@ -18,14 +18,16 @@ namespace Example
             Marquee();
         }
 
-        static void Loop(ProgressBar pb, Spinner ps, Marquee m, Action<ProgressBar, Spinner, Marquee> action)
+        static void Loop(ProgressBar pb, Spinner s, Marquee m, Action<ProgressBar, Spinner, Marquee> action)
         {
             for (int i = 0; i < pb.Maximum; i++)
             {
-                pb.Increment();
-                action(pb, ps, m);
+                pb?.Increment();
+                s?.Spin();
+                m?.Scroll();
+                action(pb, s, m);
                 //Console.Write("\n");
-                Thread.Sleep(25);
+                Thread.Sleep(50);
             }
 
             Console.Write("\n");
@@ -33,32 +35,21 @@ namespace Example
 
         static void FullWidth()
         {
-            var pb = new ProgressBar();
-
-            for (int i = 0; i < 100; i++)
+            Loop(new ProgressBar(), null, null, (pb, s, m) =>
             {
-                pb.Increment();
                 Console.Write($"\r{pb}");
-                Thread.Sleep(10);
-            }
-
-            Console.Write("\n");
+            });
         }
 
         static void FitToWidth()
         {
             var text = "Performing some background operation"; 
+            var pbar = new ProgressBar(width: 0 - (text.Length + 8), value: 0);
 
-            var pb = new ProgressBar(width: 0 - (text.Length + 8), value: 0);
-
-            for (int i = 0; i < 100; i++)
+            Loop(pbar, null, null, (pb, s, m) =>
             {
-                pb.Increment();
                 Console.Write($"\r{text} [{Math.Round(pb.Percent * 100).ToString().PadLeft(3)}%] {pb}");
-                Thread.Sleep(5);
-            }
-
-            Console.Write("\n");
+            });
         }
 
         static void FixedWidth()
@@ -68,7 +59,11 @@ namespace Example
 
         static void Disappear()
         {
-            Loop(new ProgressBar(10, format: new ProgressBarFormat(full: '=', tip: '>', paddingLeft: 1)), null, null, (pb, ps, _) => Console.Write($"\rDoing something...{(pb.Complete ? pb.ToString() : string.Empty)} Some other text.".PadRight(Console.WindowWidth - 1)));
+            ProgressBar pbar = null;
+            var fmt = new ProgressBarFormat(full: '=', tip: '>', left: "[", right: "]", paddingLeft: 1, hiddenWhen: () => pbar.Complete);
+            pbar = new ProgressBar(10, format: fmt);
+
+            Loop(pbar, null, null, (pb, ps, _) => Console.Write($"\rThe progress bar will disappear when complete...{pb} Some other text.".PadRight(Console.WindowWidth - 1)));
         }
 
         static void WithSpinner()
@@ -94,10 +89,8 @@ namespace Example
         {
             // "⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
             var progressBar = new ProgressBar(50, 0, 100, 1, 0);
-            Loop(progressBar, new Spinner(new SpinnerFormat('√', emptyWhen: () => progressBar.Complete)), new Marquee("⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏", 20, new MarqueeFormat(emptyWhen: () => progressBar.Complete, leftToRight: false, bounce: true, reverseTextOnBounce: true, gap: null)), (pb, ps, m) =>
+            Loop(progressBar, new Spinner(new SpinnerFormat(complete: '√', completeWhen: () => progressBar.Complete)), new Marquee("abcd", 20, new MarqueeFormat(complete: "Done!", completeWhen: () => progressBar.Complete, leftToRight: false, bounce: true, reverseTextOnBounce: true)), (pb, ps, m) =>
             {
-                m.Scroll();
-                ps.Spin();
                 Console.Write($"\r{pb} {m} {ps}".PadRight(Console.WindowWidth - 1));
             });
             //Loop(new ProgressBar(10, 0, 1000, 1, 0), null, new Marquee("Hello, World!", 30, new MarqueeFormat(leftToRight: false, bounce: true, reverseTextOnBounce: false, gap:0)), (pb, ps, m) =>
