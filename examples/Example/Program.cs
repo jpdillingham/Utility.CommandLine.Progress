@@ -74,7 +74,7 @@ namespace Example
             lines.Add(() =>
             {
                 helloWorld3.Scroll();
-                Console.Write($"Here's one bounces: {helloWorld3}");
+                Console.Write($"Here's one that bounces: {helloWorld3}");
             });
 
             var knightRider = new Marquee("█▓▒░", 15, new MarqueeFormat(bounce: true, reverseTextOnBounce: true));
@@ -98,6 +98,22 @@ namespace Example
                 Console.Write($"Here's one that changes when complete: {doingDone}");
             });
 
+            var spinners = new List<Spinner>()
+            {
+                new Spinner("-\\|/", new SpinnerFormat(completeWhen: () => fullWidth.Complete)),
+                new Spinner("⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"),
+                new Spinner("⢄⢂⢁⡁⡈⡐⡠"),
+                new Spinner("▁▃▄▅▆▇▆▅▄▃"),
+                new Spinner("▏▎▍▌▋▊▉▊▋▌▍▎"),
+                new Spinner("⠁⠂⠄⠂"),
+                new Spinner("⠂-–—–-")
+            };
+            lines.Add(() =>
+            {
+                spinners.ForEach(s => s.Spin());
+                Console.Write($"Here's some spinners: {string.Join("   ", spinners)}");
+            });
+
             for (int i = 0; i < lines.Count; i++) { Console.WriteLine(); }
 
             for (int i = 0; i < 100; i++)
@@ -110,7 +126,7 @@ namespace Example
                     Console.SetCursorPosition(0, Console.CursorTop + 1);
                 }
 
-                Thread.Sleep(50);
+                Thread.Sleep(75);
             }
 
             //FullWidth();
