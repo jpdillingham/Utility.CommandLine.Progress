@@ -209,6 +209,7 @@ namespace Utility.CommandLine.Progress
         ///     Initializes a new instance of the <see cref="MarqueeFormat"/> class.
         /// </summary>
         /// <param name="empty">The character representing empty space.</param>
+        /// <param name="complete">The string to display when <paramref name="completeWhen"/> evaluates to true.</param>
         /// <param name="left">The string to prepend to the left side of the display.</param>
         /// <param name="right">The string to append to the right side of the display.</param>
         /// <param name="paddingLeft">
@@ -227,19 +228,24 @@ namespace Utility.CommandLine.Progress
         /// </param>
         /// <param name="leftToRight">A value indicating whether the marquee should scroll from left to right.</param>
         /// <param name="reverseTextOnBounce">A value indicating whether the text should be reversed on bounce.</param>
+        /// <param name="completeWhen">
+        ///     The function used to determine whether the display should be composed of only the <paramref name="complete"/> string.
+        /// </param>
         /// <param name="emptyWhen">
         ///     The function used to determine whether the display should be composed of only the <paramref name="empty"/> character.
         /// </param>
         /// <param name="hiddenWhen">
         ///     The function used to determine whether the display should be composed of only a zero-length string.
         /// </param>
-        public MarqueeFormat(char empty = ' ', string left = null, string right = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ', bool bounce = false, bool reverseTextOnBounce = false, bool leftToRight = false, int? gap = null, Func<bool> emptyWhen = null, Func<bool> hiddenWhen = null)
+        public MarqueeFormat(char empty = ' ', string complete = null, string left = null, string right = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ', bool bounce = false, bool reverseTextOnBounce = false, bool leftToRight = false, int? gap = null, Func<bool> completeWhen = null, Func<bool> emptyWhen = null, Func<bool> hiddenWhen = null)
             : base(empty, left, right, paddingLeft, paddingRight, pad, emptyWhen, hiddenWhen)
         {
             Bounce = bounce;
             ReverseTextOnBounce = reverseTextOnBounce;
             LeftToRight = leftToRight;
             Gap = gap;
+            Complete = complete;
+            CompleteWhen = completeWhen ?? (() => false);
         }
 
         /// <summary>
@@ -261,6 +267,16 @@ namespace Utility.CommandLine.Progress
         ///     Gets a value indicating whether the text should be reversed on bounce.
         /// </summary>
         public bool ReverseTextOnBounce { get; }
+
+        /// <summary>
+        ///     Gets the function used to determine whether the display should be composed of only the <see cref="Complete"/> string.
+        /// </summary>
+        public Func<bool> CompleteWhen { get; }
+
+        /// <summary>
+        ///     Gets the string to display when <see cref="CompleteWhen"/> evaluates to true.
+        /// </summary>
+        public string Complete { get; }
     }
 
     /// <summary>
