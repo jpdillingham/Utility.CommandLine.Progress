@@ -46,23 +46,26 @@ namespace Utility.CommandLine.ProgressBar.Tests
         }
 
         [Theory(DisplayName = "SpinnerFormat instantiates with the given values"), AutoData]
-        public void SpinnerFormat_Instantiates_With_The_Given_Values(char empty, string left, string right, int paddingLeft, int paddingRight, char pad)
+        public void SpinnerFormat_Instantiates_With_The_Given_Values(char empty, char complete, string left, string right, int paddingLeft, int paddingRight, char pad)
         {
+            Func<bool> c = () => true;
             Func<bool> e = () => true;
             Func<bool> h = () => false;
 
             SpinnerFormat f = null;
-            var ex = Record.Exception(() => f = new SpinnerFormat(empty, left, right, paddingLeft, paddingRight, pad, e, h));
+            var ex = Record.Exception(() => f = new SpinnerFormat(empty, complete, left, right, paddingLeft, paddingRight, pad, c, e, h));
 
             Assert.Null(ex);
 
             Assert.Equal(empty, f.Empty);
+            Assert.Equal(complete, f.Complete);
             Assert.Equal(left, f.Left);
             Assert.Equal(right, f.Right);
             Assert.Equal(paddingLeft, f.PaddingLeft);
             Assert.Equal(paddingRight, f.PaddingRight);
             Assert.Equal(pad, f.Pad);
 
+            Assert.Equal(c, f.CompleteWhen);
             Assert.Equal(e, f.EmptyWhen);
             Assert.Equal(h, f.HiddenWhen);
         }
@@ -150,6 +153,21 @@ namespace Utility.CommandLine.ProgressBar.Tests
 
             Assert.NotEqual(string.Empty, hidden1);
             Assert.Equal(string.Empty, hidden2);
+        }
+
+        [Fact(DisplayName = "Spinner respects CompleteWhen")]
+        public void Spinner_Respects_CompleteWhen()
+        {
+            var complete = false;
+            var s = new Spinner(new SpinnerFormat(complete: 'a', completeWhen: () => complete));
+
+            var c1 = s.ToString();
+
+            complete = true;
+            var c2 = s.ToString();
+
+            Assert.NotEqual("a", c1);
+            Assert.Equal("a", c2);
         }
 
         [Fact(DisplayName = "Spinner returns formatted output")]
