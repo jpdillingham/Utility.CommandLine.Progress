@@ -39,12 +39,6 @@ namespace Utility.CommandLine.ProgressBar.Tests
 
     public class ProgressTests
     {
-        [Fact(DisplayName = "Meta test")]
-        public void Meta_Test()
-        {
-            Assert.True(true);
-        }
-
         [Theory(DisplayName = "SpinnerFormat instantiates with the given values"), AutoData]
         public void SpinnerFormat_Instantiates_With_The_Given_Values(char empty, char complete, string left, string right, int paddingLeft, int paddingRight, char pad)
         {
@@ -78,7 +72,11 @@ namespace Utility.CommandLine.ProgressBar.Tests
             var s2 = new Spinner('+', '-');
 
             var fmt = new SpinnerFormat();
-            var s3 = new Spinner(new[] { 'a', 'b', 'c' }, fmt);
+            var s3 = new Spinner(new[] { 'a', 'b', 'c' }, format: fmt);
+
+            var s4 = new Spinner("xyz", false, fmt);
+
+            var s5 = new Spinner(null);
 
             Assert.Equal(new[] { '-', '\\', '|', '/' }, s1.Frames);
             Assert.Equal(0, s1.Frame);
@@ -87,12 +85,18 @@ namespace Utility.CommandLine.ProgressBar.Tests
 
             Assert.Equal(new[] { 'a', 'b', 'c' }, s3.Frames);
             Assert.Equal(fmt, s3.Format);
+
+            Assert.Equal(new[] { 'x', 'y', 'z' }, s4.Frames);
+            Assert.False(s4.SpinOnToString);
+            Assert.Equal(fmt, s4.Format);
+
+            Assert.Equal(new[] { '-', '\\', '|', '/' }, s5.Frames);
         }
 
         [Fact(DisplayName = "Spinner.Spin advances frame")]
         public void Spinner_Spin_Advances_Frame()
         {
-            var s = new Spinner();
+            var s = new Spinner(spinOnToString: false);
 
             var frames = s.Frames;
             var initialString = s.ToString();
@@ -112,7 +116,7 @@ namespace Utility.CommandLine.ProgressBar.Tests
         {
             var frames = new List<string>();
 
-            var s = new Spinner('a', 'b', 'c');
+            var s = new Spinner("abc", spinOnToString: false);
 
             for (int i = 0; i < 5; i++)
             {
@@ -130,7 +134,7 @@ namespace Utility.CommandLine.ProgressBar.Tests
         public void Spinner_Respects_EmptyWhen()
         {
             var empty = false;
-            var s = new Spinner(new SpinnerFormat(emptyWhen: () => empty));
+            var s = new Spinner(format: new SpinnerFormat(emptyWhen: () => empty));
 
             var empty1 = s.ToString();
 
@@ -145,7 +149,7 @@ namespace Utility.CommandLine.ProgressBar.Tests
         public void Spinner_Respects_HiddenWhen()
         {
             var hidden = false;
-            var s = new Spinner(new SpinnerFormat(hiddenWhen: () => hidden));
+            var s = new Spinner(format: new SpinnerFormat(hiddenWhen: () => hidden));
 
             var hidden1 = s.ToString();
 
@@ -160,7 +164,7 @@ namespace Utility.CommandLine.ProgressBar.Tests
         public void Spinner_Respects_CompleteWhen()
         {
             var complete = false;
-            var s = new Spinner(new SpinnerFormat(complete: 'a', completeWhen: () => complete));
+            var s = new Spinner(format: new SpinnerFormat(complete: 'a', completeWhen: () => complete));
 
             var c1 = s.ToString();
 
@@ -174,7 +178,7 @@ namespace Utility.CommandLine.ProgressBar.Tests
         [Fact(DisplayName = "Spinner returns formatted output")]
         public void Spinner_Returns_Formatted_Output()
         {
-            var s = new Spinner(new SpinnerFormat(left: "[", right: "]", paddingLeft: 1, paddingRight: 1, pad: '.'));
+            var s = new Spinner(spinOnToString: false, format: new SpinnerFormat(left: "[", right: "]", paddingLeft: 1, paddingRight: 1, pad: '.'));
 
             Assert.Equal(".[-].", s.ToString());
         }
