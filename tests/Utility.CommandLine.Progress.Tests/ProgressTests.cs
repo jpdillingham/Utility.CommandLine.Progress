@@ -111,6 +111,18 @@ namespace Utility.CommandLine.ProgressBar.Tests
             Assert.Equal(frames.ToArray()[initialFrame + 1].ToString(), s.ToString());
         }
 
+        [Fact(DisplayName = "Spinner.ToString() advances frame when SpinOnToString")]
+        public void Spinner_ToString_Advances_Frame_When_SpinOnToString()
+        {
+            var s = new Spinner(spinOnToString: true);
+
+            var frame1 = s.Frame;
+            var _ = s.ToString();
+            var frame2 = s.Frame;
+
+            Assert.Equal(frame2, frame1 + 1);
+        }
+
         [Fact(DisplayName = "Spinner.Spin advances all frames in order")]
         public void Spinner_Spin_Advances_All_Frames_In_Order()
         {
