@@ -42,9 +42,11 @@ namespace Utility.CommandLine.ProgressBar.Tests
         [Theory(DisplayName = "SpinnerFormat instantiates with the given values"), AutoData]
         public void SpinnerFormat_Instantiates_With_The_Given_Values(char empty, char complete, string left, string right, int paddingLeft, int paddingRight, char pad)
         {
+#pragma warning disable IDE0039 // Use local function
             Func<bool> c = () => true;
             Func<bool> e = () => true;
             Func<bool> h = () => false;
+#pragma warning restore IDE0039 // Use local function
 
             SpinnerFormat f = null;
             var ex = Record.Exception(() => f = new SpinnerFormat(empty, complete, left, right, paddingLeft, paddingRight, pad, c, e, h));
