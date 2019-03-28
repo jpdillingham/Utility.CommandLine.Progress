@@ -196,7 +196,8 @@ namespace Utility.CommandLine.Progress
             {
                 builder.Append(new string(Format.Empty, Gap));
                 builder.Append(Text);
-            } while (builder.Length < Width);
+            }
+            while (builder.Length < Width);
 
             internalText = builder.ToString();
         }
@@ -288,6 +289,15 @@ namespace Utility.CommandLine.Progress
     {
         private int internalValue;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="ProgressBar"/> class.
+        /// </summary>
+        /// <param name="width">The width of the progress bar, in characters, with anything less than 1 representing a bar that should be fit to width.</param>
+        /// <param name="minimum">The minimum progress value.</param>
+        /// <param name="maximum">The maximum progress value.</param>
+        /// <param name="step">The amount to add to <see cref="Value"/> on each invocation of <see cref="Step()"/></param>
+        /// <param name="value">The current progress value.</param>
+        /// <param name="format">The progress bar format.</param>
         public ProgressBar(int width = 0, int minimum = 0, int maximum = 100, int step = 1, int value = 0, ProgressBarFormat format = null)
         {
             if (width < 0 && !ProgressUtility.ConsoleAvailable())
@@ -303,13 +313,40 @@ namespace Utility.CommandLine.Progress
             Format = format ?? new ProgressBarFormat();
         }
 
+        /// <summary>
+        ///     Gets a value indicating whether progress is complete.
+        /// </summary>
         public bool Complete => Value == Maximum;
+
+        /// <summary>
+        ///     Gets the progress bar format.
+        /// </summary>
         public ProgressBarFormat Format { get; }
+
+        /// <summary>
+        ///     Gets the maximum progress value.
+        /// </summary>
         public int Maximum { get; }
+
+        /// <summary>
+        ///     Gets the minimum progress value.
+        /// </summary>
         public int Minimum { get; }
+
+        /// <summary>
+        ///     Gets the current value as a percentage of <see cref="Maximum"/>.
+        /// </summary>
         public double Percent => Value / (double)Maximum;
+
+        /// <summary>
+        ///     Gets the amount to add to <see cref="Value"/> on each invocation of <see cref="Step()"/>
+        /// </summary>
         public int Step { get; }
 
+        /// <summary>
+        ///     Gets or sets the current progress value.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when the specified value is less than <see cref="Minimum"/> or greater than <see cref="Maximum"/>.</exception>
         public int Value
         {
             get
@@ -328,18 +365,33 @@ namespace Utility.CommandLine.Progress
             }
         }
 
+        /// <summary>
+        ///     Gets the width of the progress bar, in characters, with anything less than 1 representing a bar that should be fit to width.
+        /// </summary>
         public int Width { get; }
 
+        /// <summary>
+        ///     Decrements <see cref="Value"/> by the specified number of <paramref name="steps"/>.
+        /// </summary>
+        /// <param name="steps">The number of <see cref="Step"/>s by which to decrement <see cref="Value"/>.</param>
         public void Decrement(int steps = 1)
         {
             Value -= Step * steps;
         }
 
+        /// <summary>
+        ///     Increments <see cref="Value"/> by the specified number of <paramref name="steps"/>.
+        /// </summary>
+        /// <param name="steps">The number of <see cref="Step"/>s by which to decrement <see cref="Value"/>.</param>
         public void Increment(int steps = 1)
         {
             Value += Step * steps;
         }
 
+        /// <summary>
+        ///     Returns the current display text of the spinner.
+        /// </summary>
+        /// <returns>The current display text of the spinner.</returns>
         public override string ToString()
         {
             if (Format.HiddenWhen())
@@ -508,6 +560,9 @@ namespace Utility.CommandLine.Progress
         /// </summary>
         public string Right { get; }
 
+        /// <summary>
+        ///     Gets the total width of <see cref="PaddingLeft"/>, <see cref="Left"/>, <see cref="Right"/>, and <see cref="PaddingRight"/>.
+        /// </summary>
         public int Width => PaddingLeft + (Left?.Length ?? 0) + (Right?.Length ?? 0) + PaddingRight;
     }
 
@@ -534,7 +589,7 @@ namespace Utility.CommandLine.Progress
         ///     Initializes a new instance of the <see cref="Spinner"/> class.
         /// </summary>
         /// <param name="frames">A string containing the characters through which to cycle.</param>
-        /// <param name="spinOnToString">A value indicating whether <see cref="Spin"/> is invoked on calls to <see cref="ToString"/>.</param>
+        /// <param name="spinOnToString">A value indicating whether <see cref="Spin()"/> is invoked on calls to <see cref="ToString()"/>.</param>
         /// <param name="format">The spinner format.</param>
         public Spinner(string frames = DefaultCharacters, bool spinOnToString = true, SpinnerFormat format = null)
             : this(frames.ToCharArray(), spinOnToString, format)
@@ -545,7 +600,7 @@ namespace Utility.CommandLine.Progress
         ///     Initializes a new instance of the <see cref="Spinner"/> class.
         /// </summary>
         /// <param name="frames">The array of characters through which to cycle.</param>
-        /// <param name="spinOnToString">A value indicating whether <see cref="Spin"/> is invoked on calls to <see cref="ToString"/>.</param>
+        /// <param name="spinOnToString">A value indicating whether <see cref="Spin()"/> is invoked on calls to <see cref="ToString()"/>.</param>
         /// <param name="format">The spinner format.</param>
         public Spinner(IEnumerable<char> frames, bool spinOnToString = true, SpinnerFormat format = null)
         {
