@@ -517,25 +517,27 @@ namespace Utility.CommandLine.Progress
     public class Spinner
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="Spinner"/> class.
+        ///     The default characters through which to cycle.
         /// </summary>
-        /// <param name="format">The spinner format.</param>
-        public Spinner(SpinnerFormat format = null)
-            : this(new[] { '-', '\\', '|', '/' }, format)
-        {
-        }
+        public const string DefaultCharacters = "-\\|/";
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Spinner"/> class.
         /// </summary>
         /// <param name="frames">The array of characters through which to cycle.</param>
         public Spinner(params char[] frames)
-            : this(frames, null)
+            : this(frames.AsEnumerable())
         {
         }
 
-        public Spinner(string frames, SpinnerFormat format = null)
-            : this(frames.ToCharArray(), format)
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Spinner"/> class.
+        /// </summary>
+        /// <param name="frames">A string containing the characters through which to cycle.</param>
+        /// <param name="spinOnToString">A value indicating whether <see cref="Spin"/> is invoked on calls to <see cref="ToString"/>.</param>
+        /// <param name="format">The spinner format.</param>
+        public Spinner(string frames = DefaultCharacters, bool spinOnToString = true, SpinnerFormat format = null)
+            : this(frames.ToCharArray(), spinOnToString, format)
         {
         }
 
@@ -543,11 +545,13 @@ namespace Utility.CommandLine.Progress
         ///     Initializes a new instance of the <see cref="Spinner"/> class.
         /// </summary>
         /// <param name="frames">The array of characters through which to cycle.</param>
+        /// <param name="spinOnToString">A value indicating whether <see cref="Spin"/> is invoked on calls to <see cref="ToString"/>.</param>
         /// <param name="format">The spinner format.</param>
-        public Spinner(IEnumerable<char> frames, SpinnerFormat format = null)
+        public Spinner(IEnumerable<char> frames, bool spinOnToString = true, SpinnerFormat format = null)
         {
             Frame = 0;
-            Frames = frames;
+            Frames = frames?.DefaultIfEmpty() ?? DefaultCharacters.ToCharArray();
+            SpinOnToString = spinOnToString;
             Format = format ?? new SpinnerFormat();
         }
 
@@ -565,6 +569,11 @@ namespace Utility.CommandLine.Progress
         ///     Gets the array of characters through which to cycle.
         /// </summary>
         public IEnumerable<char> Frames { get; }
+
+        /// <summary>
+        ///     Gets a value indicating whether <see cref="Spin"/> is invoked on calls to <see cref="ToString"/>.
+        /// </summary>
+        public bool SpinOnToString { get; }
 
         /// <summary>
         ///     Advances the spinner by one character.
@@ -588,6 +597,11 @@ namespace Utility.CommandLine.Progress
             if (Format.EmptyWhen())
             {
                 return new string(Format.Empty, Format.PaddingLeft + (Format.Left?.Length ?? 0) + 1 + (Format.Right?.Length ?? 0) + Format.PaddingRight);
+            }
+
+            if (SpinOnToString)
+            {
+                Spin();
             }
 
             var builder = new StringBuilder();
