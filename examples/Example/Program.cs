@@ -100,7 +100,7 @@ namespace Example
 
             var spinners = new List<Spinner>()
             {
-                new Spinner("-\\|/", new SpinnerFormat(completeWhen: () => fullWidth.Complete)),
+                new Spinner("-\\|/", format: new SpinnerFormat(completeWhen: () => fullWidth.Complete)),
                 new Spinner("⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"),
                 new Spinner("⢄⢂⢁⡁⡈⡐⡠"),
                 new Spinner("▁▃▄▅▆▇▆▅▄▃"),
@@ -218,7 +218,7 @@ namespace Example
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
             var progressBar = new ProgressBar(50, 0, 100, 1, 0);
-            Loop(progressBar, new Spinner(frames1, new SpinnerFormat(complete: '√', completeWhen: () => progressBar.Complete)), new Marquee("abcd", 20, new MarqueeFormat(complete: "Done!", completeWhen: () => progressBar.Complete, leftToRight: false, bounce: true, reverseTextOnBounce: true)), (pb, ps, m) =>
+            Loop(progressBar, new Spinner(frames1, format: new SpinnerFormat(complete: '√', completeWhen: () => progressBar.Complete)), new Marquee("abcd", 20, new MarqueeFormat(complete: "Done!", completeWhen: () => progressBar.Complete, leftToRight: false, bounce: true, reverseTextOnBounce: true)), (pb, ps, m) =>
             {
                 Console.Write($"\r{pb} {m} {ps}".PadRight(Console.WindowWidth));
             });
