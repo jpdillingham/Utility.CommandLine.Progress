@@ -28,7 +28,7 @@
                                                                                              ▀████▀
                                                                                                ▀▀                            */
 
-namespace Utility.CommandLine.ProgressBar.Tests
+namespace Utility.CommandLine.Progress.Tests
 {
     using AutoFixture.Xunit2;
     using System;
