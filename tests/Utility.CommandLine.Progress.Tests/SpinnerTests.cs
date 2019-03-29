@@ -37,7 +37,7 @@ namespace Utility.CommandLine.ProgressBar.Tests
     using Utility.CommandLine.Progress;
     using Xunit;
 
-    public class ProgressTests
+    public class SpinnerTests
     {
         [Theory(DisplayName = "SpinnerFormat instantiates with the given values"), AutoData]
         public void SpinnerFormat_Instantiates_With_The_Given_Values(char empty, char complete, string left, string right, int paddingLeft, int paddingRight, char pad)
