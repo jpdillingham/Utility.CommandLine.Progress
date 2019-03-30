@@ -240,7 +240,21 @@ namespace Utility.CommandLine.Progress
         /// <param name="hiddenWhen">
         ///     The function used to determine whether the display should be composed of only a zero-length string.
         /// </param>
-        public MarqueeFormat(char empty = ' ', string complete = null, string left = null, string right = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ', bool bounce = false, bool reverseTextOnBounce = false, bool leftToRight = false, int? gap = null, Func<bool> completeWhen = null, Func<bool> emptyWhen = null, Func<bool> hiddenWhen = null)
+        public MarqueeFormat(
+            char empty = ' ',
+            string complete = null,
+            string left = null,
+            string right = null,
+            int paddingLeft = 0,
+            int paddingRight = 0,
+            char pad = ' ',
+            bool bounce = false,
+            bool reverseTextOnBounce = false,
+            bool leftToRight = false,
+            int? gap = null,
+            Func<bool> completeWhen = null,
+            Func<bool> emptyWhen = null,
+            Func<bool> hiddenWhen = null)
             : base(empty, left, right, paddingLeft, paddingRight, pad, emptyWhen, hiddenWhen)
         {
             Bounce = bounce;
@@ -465,7 +479,17 @@ namespace Utility.CommandLine.Progress
         /// <param name="hiddenWhen">
         ///     The function used to determine whether the display should be composed of only a zero-length string.
         /// </param>
-        public ProgressBarFormat(char empty = '░', char full = '█', char tip = '█', string left = null, string right = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ', Func<bool> emptyWhen = null, Func<bool> hiddenWhen = null)
+        public ProgressBarFormat(
+            char empty = '░',
+            char full = '█',
+            char tip = '█',
+            string left = null,
+            string right = null,
+            int paddingLeft = 0,
+            int paddingRight = 0,
+            char pad = ' ',
+            Func<bool> emptyWhen = null,
+            Func<bool> hiddenWhen = null)
             : base(empty, left, right, paddingLeft, paddingRight, pad, emptyWhen, hiddenWhen)
         {
             Full = full;
@@ -507,7 +531,15 @@ namespace Utility.CommandLine.Progress
         /// <param name="hiddenWhen">
         ///     The function used to determine whether the display should be composed of only a zero-length string.
         /// </param>
-        protected ProgressFormat(char empty = ' ', string left = null, string right = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ', Func<bool> emptyWhen = null, Func<bool> hiddenWhen = null)
+        protected ProgressFormat(
+            char empty = ' ',
+            string left = null,
+            string right = null,
+            int paddingLeft = 0,
+            int paddingRight = 0,
+            char pad = ' ',
+            Func<bool> emptyWhen = null,
+            Func<bool> hiddenWhen = null)
         {
             Empty = empty;
             Left = left;
@@ -707,7 +739,17 @@ namespace Utility.CommandLine.Progress
         /// <param name="hiddenWhen">
         ///     The function used to determine whether the display should be composed of only a zero-length string.
         /// </param>
-        public SpinnerFormat(char empty = ' ', char complete = '√', string left = null, string right = null, int paddingLeft = 0, int paddingRight = 0, char pad = ' ', Func<bool> completeWhen = null, Func<bool> emptyWhen = null, Func<bool> hiddenWhen = null)
+        public SpinnerFormat(
+            char empty = ' ',
+            char complete = '√',
+            string left = null,
+            string right = null,
+            int paddingLeft = 0,
+            int paddingRight = 0,
+            char pad = ' ',
+            Func<bool> completeWhen = null,
+            Func<bool> emptyWhen = null,
+            Func<bool> hiddenWhen = null)
             : base(empty, left, right, paddingLeft, paddingRight, pad, emptyWhen, hiddenWhen)
         {
             Complete = complete;
