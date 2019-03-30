@@ -39,5 +39,36 @@ namespace Utility.CommandLine.Progress.Tests
 
     public class MarqueeTests
     {
+        [Theory(DisplayName = "MarqueeFormat instantiates with the given values"), AutoData]
+        public void MarqueeFormat_Instantiates_With_The_Given_Values(char empty, string complete, string left, string right, int paddingLeft, int paddingRight, char pad, bool bounce, bool reverseTextOnBounce, bool leftToRight, int? gap)
+        {
+#pragma warning disable IDE0039 // Use local function
+            Func<bool> c = () => true;
+            Func<bool> e = () => true;
+            Func<bool> h = () => false;
+#pragma warning restore IDE0039 // Use local function
+
+            MarqueeFormat f = null;
+            var ex = Record.Exception(() => f = new MarqueeFormat(empty, complete, left, right, paddingLeft, paddingRight, pad, bounce, reverseTextOnBounce, leftToRight, gap, c, e, h));
+
+            Assert.Null(ex);
+
+            Assert.Equal(empty, f.Empty);
+            Assert.Equal(complete, f.Complete);
+            Assert.Equal(left, f.Left);
+            Assert.Equal(right, f.Right);
+            Assert.Equal(paddingLeft, f.PaddingLeft);
+            Assert.Equal(paddingRight, f.PaddingRight);
+            Assert.Equal(pad, f.Pad);
+            Assert.Equal(bounce, f.Bounce);
+            Assert.Equal(reverseTextOnBounce, f.ReverseTextOnBounce);
+            Assert.Equal(leftToRight, f.LeftToRight);
+            Assert.Equal(gap, f.Gap);
+            Assert.Equal(paddingLeft + paddingRight + left.Length + right.Length, f.Width);
+
+            Assert.Equal(c, f.CompleteWhen);
+            Assert.Equal(e, f.EmptyWhen);
+            Assert.Equal(h, f.HiddenWhen);
+        }
     }
 }
