@@ -81,7 +81,7 @@ namespace Example
             lines.Add(() =>
             {
                 knightRider.Scroll();
-                Console.Write($"Here's one like Knight Rider: {knightRider}");
+                Console.Write($"Here's one like KITT from Knight Rider: {knightRider}");
             });
 
             var slashes = new Marquee("/", 15, new MarqueeFormat(gap: 1));
@@ -110,7 +110,6 @@ namespace Example
             };
             lines.Add(() =>
             {
-                spinners.ForEach(s => s.Spin());
                 Console.Write($"Here's some spinners: {string.Join("   ", spinners)}");
             });
 

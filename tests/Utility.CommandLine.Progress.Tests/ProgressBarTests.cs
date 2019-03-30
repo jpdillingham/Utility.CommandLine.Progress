@@ -39,5 +39,27 @@ namespace Utility.CommandLine.Progress.Tests
 
     public class ProgressBarTests
     {
+        [Theory(DisplayName = "ProgressBarFormat instantiates with the given values"), AutoData]
+        public void ProgressBarFormat_Instantiates_With_The_Given_Values(char empty, char full, char tip, string left, string right, int paddingLeft, int paddingRight, char pad)
+        {
+#pragma warning disable IDE0039 // Use local function
+            Func<bool> e = () => true;
+            Func<bool> h = () => false;
+#pragma warning restore IDE0039 // Use local function
+
+            ProgressBarFormat f = null;
+            var ex = Record.Exception(() => f = new ProgressBarFormat(empty, full, tip, left, right, paddingLeft, paddingRight, pad, e, h));
+
+            Assert.Equal(empty, f.Empty);
+            Assert.Equal(full, f.Full);
+            Assert.Equal(tip, f.Tip);
+            Assert.Equal(left, f.Left);
+            Assert.Equal(right, f.Right);
+            Assert.Equal(paddingLeft, f.PaddingLeft);
+            Assert.Equal(paddingRight, f.PaddingRight);
+            Assert.Equal(pad, f.Pad);
+            Assert.Equal(e, f.EmptyWhen);
+            Assert.Equal(h, f.HiddenWhen);
+        }
     }
 }
