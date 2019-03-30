@@ -70,5 +70,22 @@ namespace Utility.CommandLine.Progress.Tests
             Assert.Equal(e, f.EmptyWhen);
             Assert.Equal(h, f.HiddenWhen);
         }
+
+        [Theory(DisplayName = "Marquee instantiates with the given values"), AutoData]
+        public void Marquee_Instantiates_With_The_Given_Values(string text, int width, MarqueeFormat format)
+        {
+            Marquee m = null;
+            var ex = Record.Exception(() => m = new Marquee(text, width, format));
+
+            Assert.Null(ex);
+
+            Assert.Equal(text, m.Text);
+            Assert.Equal(width, m.Width);
+            Assert.Equal(format, m.Format);
+
+            Assert.Equal(format.Gap, m.Gap);
+            Assert.Equal(text.Length + width, m.Position);
+            Assert.False(m.Reversed);
+        }
     }
 }
