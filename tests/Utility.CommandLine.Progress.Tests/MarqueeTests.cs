@@ -87,5 +87,41 @@ namespace Utility.CommandLine.Progress.Tests
             Assert.Equal(text.Length + width, m.Position);
             Assert.False(m.Reversed);
         }
+
+        [Fact(DisplayName = "Marquee scrolls left")]
+        public void Marquee_Scrolls_Left()
+        {
+            var m = new Marquee("a", 2);
+            var s = new List<string>();
+
+            for (int i = 0; i < 4; i++)
+            {
+                s.Add(m.ToString());
+                m.Scroll();
+            }
+
+            Assert.Equal("  ", s[0]);
+            Assert.Equal(" a", s[1]);
+            Assert.Equal("a ", s[2]);
+            Assert.Equal("  ", s[3]);
+        }
+
+        [Fact(DisplayName = "Marquee scrolls right")]
+        public void Marquee_Scrolls_Right()
+        {
+            var m = new Marquee("a", 2, new MarqueeFormat(leftToRight: true));
+            var s = new List<string>();
+
+            for (int i = 0; i < 4; i++)
+            {
+                s.Add(m.ToString());
+                m.Scroll();
+            }
+
+            Assert.Equal("  ", s[0]);
+            Assert.Equal("a ", s[1]);
+            Assert.Equal(" a", s[2]);
+            Assert.Equal("  ", s[3]);
+        }
     }
 }
