@@ -123,5 +123,51 @@ namespace Utility.CommandLine.Progress.Tests
             Assert.Equal(" a", s[2]);
             Assert.Equal("  ", s[3]);
         }
+
+        [Fact(DisplayName = "Marquee bounces")]
+        public void Marquee_Bounces()
+        {
+            var m = new Marquee("ab", 2, new MarqueeFormat(bounce: true));
+            var s = new List<string>();
+
+            for (int i = 0; i < 9; i++)
+            {
+                s.Add(m.ToString());
+                m.Scroll();
+            }
+
+            Assert.Equal("  ", s[0]);
+            Assert.Equal(" a", s[1]);
+            Assert.Equal("ab", s[2]);
+            Assert.Equal("b ", s[3]);
+            Assert.Equal("  ", s[4]);
+            Assert.Equal("b ", s[5]);
+            Assert.Equal("ab", s[6]);
+            Assert.Equal(" a", s[7]);
+            Assert.Equal("  ", s[8]);
+        }
+
+        [Fact(DisplayName = "Marquee reverses on bounce")]
+        public void Marquee_Reverses_On_Bounce()
+        {
+            var m = new Marquee("ab", 2, new MarqueeFormat(bounce: true, reverseTextOnBounce: true));
+            var s = new List<string>();
+
+            for (int i = 0; i < 9; i++)
+            {
+                s.Add(m.ToString());
+                m.Scroll();
+            }
+
+            Assert.Equal("  ", s[0]);
+            Assert.Equal(" a", s[1]);
+            Assert.Equal("ab", s[2]);
+            Assert.Equal("b ", s[3]);
+            Assert.Equal("  ", s[4]);
+            Assert.Equal("a ", s[5]);
+            Assert.Equal("ba", s[6]);
+            Assert.Equal(" b", s[7]);
+            Assert.Equal("  ", s[8]);
+        }
     }
 }
