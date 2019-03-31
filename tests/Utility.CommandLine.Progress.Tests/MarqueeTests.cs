@@ -169,5 +169,20 @@ namespace Utility.CommandLine.Progress.Tests
             Assert.Equal(" b", s[7]);
             Assert.Equal("  ", s[8]);
         }
+
+        [Fact(DisplayName = "Marquee returns empty string when hidden")]
+        public void Marquee_Returns_Empty_String_When_Hidden()
+        {
+            var hidden = false;
+            var m = new Marquee("Hello, World!", 10, new MarqueeFormat(hiddenWhen: () => hidden));
+
+            var s1 = m.ToString();
+
+            hidden = true;
+            var s2 = m.ToString();
+
+            Assert.Equal(10, s1.Length);
+            Assert.Equal(0, s2.Length);
+        }
     }
 }
