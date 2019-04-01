@@ -205,5 +205,26 @@ namespace Utility.CommandLine.Progress.Tests
             Assert.Equal(".....Hello", s1);
             Assert.Equal("..........", s2);
         }
+
+        [Fact(DisplayName = "Marquee returns complete string when completed")]
+        public void Marquee_Returns_Complete_String_When_Complete()
+        {
+            var complete = false;
+            var m = new Marquee("Hello, World!", 10, new MarqueeFormat(empty: '.', complete: "Done!", completeWhen: () => complete));
+
+
+            for (int i = 0; i < 5; i++)
+            {
+                m.Scroll();
+            }
+
+            var s1 = m.ToString();
+
+            complete = true;
+            var s2 = m.ToString();
+
+            Assert.Equal(".....Hello", s1);
+            Assert.Equal("Done!.....", s2);
+        }
     }
 }
