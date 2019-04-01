@@ -61,5 +61,19 @@ namespace Utility.CommandLine.Progress.Tests
             Assert.Equal(e, f.EmptyWhen);
             Assert.Equal(h, f.HiddenWhen);
         }
+        
+        [Theory(DisplayName = "ProgressBar instantiates with the given values"), AutoData]
+        public void ProgressBar_Instantiates_With_The_Given_Values(int width, int minimum, int maximum, int step, ProgressBarFormat format)
+        {
+            var value = new Random().Next(minimum, maximum);
+            var p = new ProgressBar(width, minimum, maximum, step, value, format);
+
+            Assert.Equal(width, p.Width);
+            Assert.Equal(minimum, p.Minimum);
+            Assert.Equal(maximum, p.Maximum);
+            Assert.Equal(step, p.Step);
+            Assert.Equal(value, p.Value);
+            Assert.Equal(format, p.Format);
+        }
     }
 }
