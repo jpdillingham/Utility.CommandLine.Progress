@@ -163,7 +163,7 @@ namespace Utility.CommandLine.Progress
 
             if (Format.CompleteWhen())
             {
-                builder.Append(Format.Complete.PadRight(width, Format.Pad));
+                builder.Append(Format.Complete.PadRight(width, Format.Empty));
             }
             else
             {
