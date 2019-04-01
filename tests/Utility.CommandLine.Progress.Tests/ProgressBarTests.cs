@@ -65,6 +65,26 @@ namespace Utility.CommandLine.Progress.Tests
         [Theory(DisplayName = "ProgressBar instantiates with the given values"), AutoData]
         public void ProgressBar_Instantiates_With_The_Given_Values(int width, int minimum, int maximum, int step, ProgressBarFormat format)
         {
+            if (width == 0)
+            {
+                width++;
+            }
+
+            maximum = Math.Abs(maximum);
+            minimum = Math.Abs(minimum);
+
+            if (minimum > maximum)
+            {
+                var t = maximum;
+                maximum = minimum;
+                minimum = maximum;
+            }
+
+            if (minimum == maximum)
+            {
+                maximum++;
+            }
+
             var value = new Random().Next(minimum, maximum);
             var p = new ProgressBar(width, minimum, maximum, step, value, format);
 
@@ -74,6 +94,9 @@ namespace Utility.CommandLine.Progress.Tests
             Assert.Equal(step, p.Step);
             Assert.Equal(value, p.Value);
             Assert.Equal(format, p.Format);
+
+            Assert.Equal(p.Value == p.Maximum, p.Complete);
+            Assert.Equal(p.Value / (double)p.Maximum, p.Percent);
         }
     }
 }
