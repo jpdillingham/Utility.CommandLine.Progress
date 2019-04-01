@@ -71,14 +71,17 @@ namespace Utility.CommandLine.Progress
         /// </summary>
         /// <param name="text">The text to scroll.</param>
         /// <param name="width">The width of the marquee, in number of characters.</param>
+        /// <param name="scrollOnToString">A value indicating whether <see cref="Scroll()"/> is invoked on calls to <see cref="ToString()"/>.</param>
         /// <param name="format">The marquee format.</param>
-        public Marquee(string text, int width, MarqueeFormat format = null)
+        public Marquee(string text, int width, bool scrollOnToString = false, MarqueeFormat format = null)
         {
             Text = text;
             Width = width;
             Format = format ?? new MarqueeFormat();
             Position = Text.Length + Width;
             Gap = Format.Gap ?? Width;
+
+            ScrollOnToString = scrollOnToString;
 
             SetText();
         }
@@ -112,6 +115,11 @@ namespace Utility.CommandLine.Progress
         ///     Gets the width of the marquee, in number of characters.
         /// </summary>
         public int Width { get; }
+
+        /// <summary>
+        ///     Gets a value indicating whether <see cref="Scroll"/> is invoked on calls to <see cref="ToString"/>.
+        /// </summary>
+        public bool ScrollOnToString { get; }
 
         /// <summary>
         ///     Scrolls the marquee one character to the left or right, depending on formatting options.
@@ -153,6 +161,11 @@ namespace Utility.CommandLine.Progress
             if (Format.EmptyWhen())
             {
                 return new string(Format.Empty, Format.Width + Width);
+            }
+
+            if (ScrollOnToString)
+            {
+                Scroll();
             }
 
             var width = Width < 1 ? Console.WindowWidth - Math.Abs(Width) + 1 : Width;
@@ -658,7 +671,7 @@ namespace Utility.CommandLine.Progress
         public IEnumerable<char> Frames { get; }
 
         /// <summary>
-        ///     Gets a value indicating whether <see cref="Spin"/> is invoked on calls to <see cref="ToString"/>.
+        ///     Gets a value indicating whether <see cref="Spin()"/> is invoked on calls to <see cref="ToString()"/>.
         /// </summary>
         public bool SpinOnToString { get; }
 
