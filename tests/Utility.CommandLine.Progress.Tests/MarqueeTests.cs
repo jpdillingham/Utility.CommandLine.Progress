@@ -234,5 +234,13 @@ namespace Utility.CommandLine.Progress.Tests
 
             Assert.Equal(",,,. !,,", m.ToString());
         }
+
+        [Fact(DisplayName = "Marquee respects gap setting")]
+        public void Marquee_Respects_Gap_Setting()
+        {
+            var m = new Marquee("a", 6, new MarqueeFormat(gap: 1));
+
+            Assert.Equal(" a a a", m.ToString());
+        }
     }
 }
