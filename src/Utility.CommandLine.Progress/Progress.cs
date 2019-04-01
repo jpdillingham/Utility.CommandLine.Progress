@@ -327,7 +327,7 @@ namespace Utility.CommandLine.Progress
         /// <param name="format">The progress bar format.</param>
         public ProgressBar(int width = 0, int minimum = 0, int maximum = 100, int step = 1, int value = 0, ProgressBarFormat format = null)
         {
-            if (width < 0 && !ProgressUtility.ConsoleAvailable())
+            if (width <= 0 && !ProgressUtility.ConsoleAvailable())
             {
                 throw new ArgumentOutOfRangeException($"Unable to use dynamic width (width < 0) outside of a Console context.  Specify a fixed width.");
             }
