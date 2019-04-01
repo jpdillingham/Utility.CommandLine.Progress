@@ -63,35 +63,35 @@ namespace Example
                 Console.Write($"Here's a marquee: {helloWorld}");
             });
 
-            var helloWorld2 = new Marquee("Hello, World!", 15, new MarqueeFormat(leftToRight: true));
+            var helloWorld2 = new Marquee("Hello, World!", 15, format: new MarqueeFormat(leftToRight: true));
             lines.Add(() =>
             {
                 helloWorld2.Scroll();
                 Console.Write($"Here's one that goes the other way: {helloWorld2}");
             });
 
-            var helloWorld3 = new Marquee("Hello, World!", 15, new MarqueeFormat(bounce: true));
+            var helloWorld3 = new Marquee("Hello, World!", 15, format: new MarqueeFormat(bounce: true));
             lines.Add(() =>
             {
                 helloWorld3.Scroll();
                 Console.Write($"Here's one that bounces: {helloWorld3}");
             });
 
-            var knightRider = new Marquee("█▓▒░", 15, new MarqueeFormat(bounce: true, reverseTextOnBounce: true));
+            var knightRider = new Marquee("█▓▒░", 15, format: new MarqueeFormat(bounce: true, reverseTextOnBounce: true));
             lines.Add(() =>
             {
                 knightRider.Scroll();
                 Console.Write($"Here's one like KITT from Knight Rider: {knightRider}");
             });
 
-            var slashes = new Marquee("/", 15, new MarqueeFormat(gap: 1));
+            var slashes = new Marquee("/", 15, format: new MarqueeFormat(gap: 1));
             lines.Add(() =>
             {
                 slashes.Scroll();
                 Console.Write($"Here's one with a small gap: {slashes}");
             });
 
-            var doingDone = new Marquee("Doing a thing...", 15, new MarqueeFormat(gap: 1, left: "[", right: "]", complete: "Done!", completeWhen: () => fullWidth.Complete));
+            var doingDone = new Marquee("Doing a thing...", 15, format: new MarqueeFormat(gap: 1, left: "[", right: "]", complete: "Done!", completeWhen: () => fullWidth.Complete));
             lines.Add(() =>
             {
                 doingDone.Scroll();
