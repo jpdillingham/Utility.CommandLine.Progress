@@ -75,7 +75,7 @@ namespace Utility.CommandLine.Progress.Tests
         public void Marquee_Instantiates_With_The_Given_Values(string text, int width, MarqueeFormat format)
         {
             Marquee m = null;
-            var ex = Record.Exception(() => m = new Marquee(text, width, format));
+            var ex = Record.Exception(() => m = new Marquee(text, width, format: format));
 
             Assert.Null(ex);
 
@@ -109,7 +109,7 @@ namespace Utility.CommandLine.Progress.Tests
         [Fact(DisplayName = "Marquee scrolls right")]
         public void Marquee_Scrolls_Right()
         {
-            var m = new Marquee("a", 2, new MarqueeFormat(leftToRight: true));
+            var m = new Marquee("a", 2, format: new MarqueeFormat(leftToRight: true));
             var s = new List<string>();
 
             for (int i = 0; i < 4; i++)
@@ -127,7 +127,7 @@ namespace Utility.CommandLine.Progress.Tests
         [Fact(DisplayName = "Marquee bounces")]
         public void Marquee_Bounces()
         {
-            var m = new Marquee("ab", 2, new MarqueeFormat(bounce: true));
+            var m = new Marquee("ab", 2, format: new MarqueeFormat(bounce: true));
             var s = new List<string>();
 
             for (int i = 0; i < 9; i++)
@@ -150,7 +150,7 @@ namespace Utility.CommandLine.Progress.Tests
         [Fact(DisplayName = "Marquee reverses on bounce")]
         public void Marquee_Reverses_On_Bounce()
         {
-            var m = new Marquee("ab", 2, new MarqueeFormat(bounce: true, reverseTextOnBounce: true));
+            var m = new Marquee("ab", 2, format: new MarqueeFormat(bounce: true, reverseTextOnBounce: true));
             var s = new List<string>();
 
             for (int i = 0; i < 9; i++)
@@ -174,7 +174,7 @@ namespace Utility.CommandLine.Progress.Tests
         public void Marquee_Returns_Zero_Length_String_When_Hidden()
         {
             var hidden = false;
-            var m = new Marquee("Hello, World!", 10, new MarqueeFormat(hiddenWhen: () => hidden));
+            var m = new Marquee("Hello, World!", 10, format: new MarqueeFormat(hiddenWhen: () => hidden));
 
             var s1 = m.ToString();
 
@@ -189,7 +189,7 @@ namespace Utility.CommandLine.Progress.Tests
         public void Marquee_Returns_Empty_String_When_Hidden()
         {
             var empty = false;
-            var m = new Marquee("Hello, World!", 10, new MarqueeFormat(empty: '.', emptyWhen: () => empty));
+            var m = new Marquee("Hello, World!", 10, format: new MarqueeFormat(empty: '.', emptyWhen: () => empty));
 
 
             for (int i = 0; i < 5; i++)
@@ -210,7 +210,7 @@ namespace Utility.CommandLine.Progress.Tests
         public void Marquee_Returns_Complete_String_When_Complete()
         {
             var complete = false;
-            var m = new Marquee("Hello, World!", 10, new MarqueeFormat(empty: '.', complete: "Done!", completeWhen: () => complete));
+            var m = new Marquee("Hello, World!", 10, format: new MarqueeFormat(empty: '.', complete: "Done!", completeWhen: () => complete));
 
 
             for (int i = 0; i < 5; i++)
@@ -230,7 +230,7 @@ namespace Utility.CommandLine.Progress.Tests
         [Fact(DisplayName = "Marquee adds formatting")]
         public void Marquee_Adds_Formating()
         {
-            var m = new Marquee(" ", 1, new MarqueeFormat(left: ".", right: "!", paddingLeft: 3, paddingRight: 2, pad: ','));
+            var m = new Marquee(" ", 1, format: new MarqueeFormat(left: ".", right: "!", paddingLeft: 3, paddingRight: 2, pad: ','));
 
             Assert.Equal(",,,. !,,", m.ToString());
         }
@@ -238,9 +238,21 @@ namespace Utility.CommandLine.Progress.Tests
         [Fact(DisplayName = "Marquee respects gap setting")]
         public void Marquee_Respects_Gap_Setting()
         {
-            var m = new Marquee("a", 6, new MarqueeFormat(gap: 1));
+            var m = new Marquee("a", 6, format: new MarqueeFormat(gap: 1));
 
             Assert.Equal(" a a a", m.ToString());
+        }
+
+        [Fact(DisplayName = "Marquee scrolls on tostring when set")]
+        public void Marquee_Scrolls_On_ToString_When_Set()
+        {
+            var m = new Marquee("a", 2, scrollOnToString: true);
+
+            var s1 = m.ToString();
+            var s2 = m.ToString();
+
+            Assert.Equal(" a", s1);
+            Assert.Equal("a ", s2);
         }
     }
 }
