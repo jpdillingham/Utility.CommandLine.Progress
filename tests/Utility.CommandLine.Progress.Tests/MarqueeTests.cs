@@ -226,5 +226,13 @@ namespace Utility.CommandLine.Progress.Tests
             Assert.Equal(".....Hello", s1);
             Assert.Equal("Done!.....", s2);
         }
+
+        [Fact(DisplayName = "Marquee adds formatting")]
+        public void Marquee_Adds_Formating()
+        {
+            var m = new Marquee(" ", 1, new MarqueeFormat(left: ".", right: "!", paddingLeft: 3, paddingRight: 2, pad: ','));
+
+            Assert.Equal(",,,. !,,", m.ToString());
+        }
     }
 }
