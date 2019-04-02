@@ -111,5 +111,39 @@ namespace Utility.CommandLine.Progress.Tests
 
             Assert.Equal(expected, p.Value);
         }
+
+        [Theory(DisplayName = "ProgressBar increments by step"), AutoData]
+        public void ProgressBar_Increments_By_Step(int step)
+        {
+            step = Math.Abs(step);
+            var p = new ProgressBar(10, step: step, maximum: step * 2);
+
+            var v1 = p.Value;
+            p.Increment();
+            var v2 = p.Value;
+            p.Increment();
+            var v3 = p.Value;
+
+            Assert.Equal(0, v1);
+            Assert.Equal(step, v2);
+            Assert.Equal(step * 2, v3);
+        }
+
+        [Theory(DisplayName = "ProgressBar decrements by step"), AutoData]
+        public void ProgressBar_Decrements_By_Step(int step)
+        {
+            step = Math.Abs(step);
+            var p = new ProgressBar(10, value: step * 2, step: step, maximum: step * 2);
+
+            var v1 = p.Value;
+            p.Decrement();
+            var v2 = p.Value;
+            p.Decrement();
+            var v3 = p.Value;
+
+            Assert.Equal(step * 2, v1);
+            Assert.Equal(step, v2);
+            Assert.Equal(0, v3);
+        }
     }
 }
