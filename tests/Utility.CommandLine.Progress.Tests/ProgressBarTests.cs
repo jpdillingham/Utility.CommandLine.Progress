@@ -145,5 +145,35 @@ namespace Utility.CommandLine.Progress.Tests
             Assert.Equal(step, v2);
             Assert.Equal(0, v3);
         }
+
+        [Fact(DisplayName = "ProgressBar returns zero length string when hidden")]
+        public void ProgressBar_Returns_Zero_Length_String_When_Hidden()
+        {
+            var hidden = false;
+            var p = new ProgressBar(10, format: new ProgressBarFormat(hiddenWhen: () => hidden));
+
+            var s1 = p.ToString();
+
+            hidden = true;
+            var s2 = p.ToString();
+
+            Assert.Equal(10, s1.Length);
+            Assert.Equal(0, s2.Length);
+        }
+
+        [Fact(DisplayName = "ProgressBar returns empty string when empty")]
+        public void ProgressBar_Returns_Empty_String_When_Empty()
+        {
+            var empty = false;
+            var p = new ProgressBar(10, maximum: 10, value: 10, format: new ProgressBarFormat(full: '.', empty: ' ', emptyWhen: () => empty));
+
+            var s1 = p.ToString();
+
+            empty = true;
+            var s2 = p.ToString();
+
+            Assert.Equal("..........", s1);
+            Assert.Equal("          ", s2);
+        }
     }
 }

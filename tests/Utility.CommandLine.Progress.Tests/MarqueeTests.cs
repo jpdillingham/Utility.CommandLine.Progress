@@ -185,8 +185,8 @@ namespace Utility.CommandLine.Progress.Tests
             Assert.Equal(0, s2.Length);
         }
 
-        [Fact(DisplayName = "Marquee returns empty string when hidden")]
-        public void Marquee_Returns_Empty_String_When_Hidden()
+        [Fact(DisplayName = "Marquee returns empty string when empty")]
+        public void Marquee_Returns_Empty_String_When_Empty()
         {
             var empty = false;
             var m = new Marquee("Hello, World!", 10, format: new MarqueeFormat(empty: '.', emptyWhen: () => empty));
