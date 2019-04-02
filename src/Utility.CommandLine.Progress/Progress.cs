@@ -464,7 +464,7 @@ namespace Utility.CommandLine.Progress
 
             builder.Append(new string(Format.Empty, emptyChars));
             builder.Append(Format.Right);
-            builder.Append(new string(' ', Format.PaddingRight));
+            builder.Append(new string(Format.Pad, Format.PaddingRight));
 
             return builder.ToString();
         }
