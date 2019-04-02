@@ -430,8 +430,7 @@ namespace Utility.CommandLine.Progress
                 return string.Empty;
             }
 
-            var consoleWidth = Console.WindowWidth - 1;
-            var barWidth = Width < 1 ? consoleWidth - Format.Width - Math.Abs(Width) : Width;
+            var barWidth = Width <= 0 ? (Console.WindowWidth - 1) - Format.Width - Math.Abs(Width) : Width;
 
             if (Format.EmptyWhen())
             {
