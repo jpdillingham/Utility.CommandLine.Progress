@@ -5,11 +5,12 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Release\netstandard2.0\Utility.CommandLine.Progress.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netstandard2.0\Utility.CommandLine.Progress.xml</DocumentationFile>
     <CodeAnalysisRuleSet>Utility.CommandLine.Progress.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard2.0\Utility.CommandLine.Progress.xml</DocumentationFile>
     <CodeAnalysisRuleSet>Utility.CommandLine.Progress.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
