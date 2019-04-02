@@ -165,15 +165,15 @@ namespace Utility.CommandLine.Progress.Tests
         public void ProgressBar_Returns_Empty_String_When_Empty()
         {
             var empty = false;
-            var p = new ProgressBar(10, maximum: 10, value: 10, format: new ProgressBarFormat(full: '.', empty: ' ', emptyWhen: () => empty));
+            var p = new ProgressBar(10, maximum: 10, value: 10, format: new ProgressBarFormat(full: '.', empty: ' ', left: "[", right: "]", paddingLeft: 1, paddingRight: 1, emptyWhen: () => empty));
 
             var s1 = p.ToString();
 
             empty = true;
             var s2 = p.ToString();
 
-            Assert.Equal("..........", s1);
-            Assert.Equal("          ", s2);
+            Assert.Equal(" [..........] ", s1);
+            Assert.Equal("              ", s2);
         }
 
         [Fact(DisplayName = "ProgressBar adds formatting")]
