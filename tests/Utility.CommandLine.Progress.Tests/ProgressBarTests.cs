@@ -183,5 +183,32 @@ namespace Utility.CommandLine.Progress.Tests
 
             Assert.Equal("000LEFT RIGHT00", p.ToString());
         }
+
+        [Fact(DisplayName = "ProgressBar displays value correctly")]
+        public void ProgressBar_Displays_Value_Correctly()
+        {
+            var p = new ProgressBar(10, 0, 10, 1, 0, new ProgressBarFormat(empty: ' ', full: 'X', tip: '>'));
+
+            var s = new List<string>();
+            s.Add(p.ToString());
+
+            for (int i = 0; i < 10; i++)
+            {
+                p.Increment();
+                s.Add(p.ToString());
+            }
+
+            Assert.Equal("          ", s[0]);
+            Assert.Equal(">         ", s[1]);
+            Assert.Equal("X>        ", s[2]);
+            Assert.Equal("XX>       ", s[3]);
+            Assert.Equal("XXX>      ", s[4]);
+            Assert.Equal("XXXX>     ", s[5]);
+            Assert.Equal("XXXXX>    ", s[6]);
+            Assert.Equal("XXXXXX>   ", s[7]);
+            Assert.Equal("XXXXXXX>  ", s[8]);
+            Assert.Equal("XXXXXXXX> ", s[9]);
+            Assert.Equal("XXXXXXXXXX", s[10]);
+        }
     }
 }
