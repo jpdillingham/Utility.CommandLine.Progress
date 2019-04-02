@@ -383,12 +383,18 @@ namespace Utility.CommandLine.Progress
 
             set
             {
-                if (value > Maximum || value < Minimum)
+                if (value > Maximum)
                 {
-                    throw new ArgumentOutOfRangeException($"Value must be between {Minimum} and {Maximum}, inclusive.");
+                    internalValue = Maximum;
                 }
-
-                internalValue = value;
+                else if (value < Minimum)
+                {
+                    internalValue = Minimum;
+                }
+                else
+                {
+                    internalValue = value;
+                }
             }
         }
 
