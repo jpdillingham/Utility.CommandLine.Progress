@@ -175,5 +175,13 @@ namespace Utility.CommandLine.Progress.Tests
             Assert.Equal("..........", s1);
             Assert.Equal("          ", s2);
         }
+
+        [Fact(DisplayName = "ProgressBar adds formatting")]
+        public void ProgressBar_Adds_Formating()
+        {
+            var p = new ProgressBar(1, format: new ProgressBarFormat(empty: ' ', left: "LEFT", right: "RIGHT", paddingLeft: 3, paddingRight: 2, pad: '0'));
+
+            Assert.Equal("000LEFT RIGHT00", p.ToString());
+        }
     }
 }
