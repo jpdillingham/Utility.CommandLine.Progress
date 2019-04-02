@@ -98,5 +98,18 @@ namespace Utility.CommandLine.Progress.Tests
             Assert.Equal(p.Value == p.Maximum, p.Complete);
             Assert.Equal(p.Value / (double)p.Maximum, p.Percent);
         }
+
+        [Theory(DisplayName = "ProgresBar clamps value")]
+        [InlineData(101, 0, 100, 100)]
+        [InlineData(-1, 0, 100, 0)]
+        [InlineData(50, 0, 100, 50)]
+        public void ProgressBar_Clamps_Value(int num, int min, int max, int expected)
+        {
+            var p = new ProgressBar(10, min, max, 1, 0);
+
+            p.Value = num;
+
+            Assert.Equal(expected, p.Value);
+        }
     }
 }
