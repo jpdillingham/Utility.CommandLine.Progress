@@ -7,3 +7,23 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/jpdillingham/Utility.CommandLine.Progress/blob/master/LICENSE)
 
 A C# .NET class library containing tools for displaying progress in console applications.
+
+## Progress Bars
+
+![Progress Bars](https://github.com/jpdillingham/Utility.CommandLine.Progress/raw/master/doc/img/progressbars.gif "Progress Bars")
+
+## Marquees
+
+![Marquees](https://github.com/jpdillingham/Utility.CommandLine.Progress/raw/master/doc/img/marquees.gif "Marquees")
+
+## Spinners
+
+![Spinners](https://github.com/jpdillingham/Utility.CommandLine.Progress/raw/master/doc/img/spinners.gif "Spinners")
+
+## Installation
+
+Install from the NuGet gallery GUI or with the Package Manager Console using the following command:
+
+```Install-Package Utility.CommandLine.Progress```
+
+The code is also designed to be incorporated into your project as a single source file (Progress.cs).
