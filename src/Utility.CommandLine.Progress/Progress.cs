@@ -168,19 +168,17 @@ namespace Utility.CommandLine.Progress
                 Scroll();
             }
 
-            var width = Width < 1 ? Console.WindowWidth - Math.Abs(Width) + 1 : Width;
-
             var builder = new StringBuilder();
             builder.Append(new string(Format.Pad, Format.PaddingLeft));
             builder.Append(Format.Left);
 
             if (Format.CompleteWhen())
             {
-                builder.Append(Format.Complete.PadRight(width, Format.Empty));
+                builder.Append(Format.Complete.PadRight(Width, Format.Empty));
             }
             else
             {
-                builder.Append(new string(internalText.Take(width).ToArray()));
+                builder.Append(new string(internalText.Take(Width).ToArray()));
             }
 
             builder.Append(Format.Right);
@@ -432,8 +430,7 @@ namespace Utility.CommandLine.Progress
                 return string.Empty;
             }
 
-            var consoleWidth = Console.WindowWidth - 1;
-            var barWidth = Width < 1 ? consoleWidth - Format.Width - Math.Abs(Width) : Width;
+            var barWidth = Width <= 0 ? (Console.WindowWidth - 1) - Format.Width - Math.Abs(Width) : Width;
 
             if (Format.EmptyWhen())
             {
@@ -464,7 +461,7 @@ namespace Utility.CommandLine.Progress
 
             builder.Append(new string(Format.Empty, emptyChars));
             builder.Append(Format.Right);
-            builder.Append(new string(' ', Format.PaddingRight));
+            builder.Append(new string(Format.Pad, Format.PaddingRight));
 
             return builder.ToString();
         }
@@ -702,7 +699,7 @@ namespace Utility.CommandLine.Progress
 
             if (Format.EmptyWhen())
             {
-                return new string(Format.Empty, Format.PaddingLeft + (Format.Left?.Length ?? 0) + 1 + (Format.Right?.Length ?? 0) + Format.PaddingRight);
+                return new string(Format.Empty, Format.Width + 1);
             }
 
             if (SpinOnToString)
