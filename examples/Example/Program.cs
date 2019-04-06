@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using Utility.CommandLine.Progress;
+using Utility.CommandLine;
 
 namespace Example
 {

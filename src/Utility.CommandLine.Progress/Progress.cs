@@ -28,7 +28,7 @@
                                                                                              ▀████▀
                                                                                                ▀▀                            */
 
-namespace Utility.CommandLine.Progress
+namespace Utility.CommandLine
 {
     using System;
     using System.Collections.Generic;

@@ -28,13 +28,11 @@
                                                                                              ▀████▀
                                                                                                ▀▀                            */
 
-namespace Utility.CommandLine.Progress.Tests
+namespace Utility.CommandLine.Tests
 {
     using AutoFixture.Xunit2;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using Utility.CommandLine.Progress;
     using Xunit;
 
     public class ProgressBarTests
