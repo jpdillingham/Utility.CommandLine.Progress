@@ -1,3 +1,4 @@
+image: ubuntu
 version: 1.0.0{build}
 before_build:
 - dotnet restore
