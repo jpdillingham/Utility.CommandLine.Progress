@@ -28,13 +28,11 @@
                                                                                              ▀████▀
                                                                                                ▀▀                            */
 
-namespace Utility.CommandLine.Progress.Tests
+namespace Utility.CommandLine.Tests
 {
     using AutoFixture.Xunit2;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using Utility.CommandLine.Progress;
     using Xunit;
 
     public class ProgressBarTests
@@ -105,9 +103,10 @@ namespace Utility.CommandLine.Progress.Tests
         [InlineData(50, 0, 100, 50)]
         public void ProgressBar_Clamps_Value(int num, int min, int max, int expected)
         {
-            var p = new ProgressBar(10, min, max, 1, 0);
-
-            p.Value = num;
+            var p = new ProgressBar(10, min, max, 1, 0)
+            {
+                Value = num
+            };
 
             Assert.Equal(expected, p.Value);
         }
@@ -189,8 +188,10 @@ namespace Utility.CommandLine.Progress.Tests
         {
             var p = new ProgressBar(10, 0, 10, 1, 0, new ProgressBarFormat(empty: ' ', full: 'X', tip: '>'));
 
-            var s = new List<string>();
-            s.Add(p.ToString());
+            var s = new List<string>
+            {
+                p.ToString()
+            };
 
             for (int i = 0; i < 10; i++)
             {
