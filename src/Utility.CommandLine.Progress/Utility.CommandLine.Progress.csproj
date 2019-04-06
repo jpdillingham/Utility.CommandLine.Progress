@@ -2,16 +2,34 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>..\CodeAnalysis\CodeAnalysis.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.0.3</Version>
+    <Authors>JP Dillingham</Authors>
+    <Product>Utility.CommandLine.Progress</Product>
+    <PackageProjectUrl>https://github.com/jpdillingham/Utility.CommandLine.Progress</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/jpdillingham/Utility.CommandLine.Progress/blob/master/LICENSE</PackageLicenseUrl>
+    <Description>A C# .NET class library containing tools for displaying progress in console applications.</Description>
+    <Copyright>Copyright (c) JP Dillingham (jp@dillingham.ws)</Copyright>
+    <RepositoryUrl>https://github.com/jpdillingham/Utility.CommandLine.Progress</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>csharp command-line commandline dotnet progress-bar spinner marquee</PackageTags>
+    <NeutralLanguage>en-US</NeutralLanguage>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>bin\Debug\netstandard2.0\Utility.CommandLine.Progress.xml</DocumentationFile>
-    <CodeAnalysisRuleSet>Utility.CommandLine.Progress.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>bin\Release\netstandard2.0\Utility.CommandLine.Progress.xml</DocumentationFile>
-    <CodeAnalysisRuleSet>Utility.CommandLine.Progress.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>

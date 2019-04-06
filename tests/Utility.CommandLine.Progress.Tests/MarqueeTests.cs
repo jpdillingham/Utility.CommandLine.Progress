@@ -30,11 +30,9 @@
 
 namespace Utility.CommandLine.Progress.Tests
 {
-    using AutoFixture.Xunit2;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using Utility.CommandLine.Progress;
+    using AutoFixture.Xunit2;
     using Xunit;
 
     public class MarqueeTests
@@ -191,7 +189,6 @@ namespace Utility.CommandLine.Progress.Tests
             var empty = false;
             var m = new Marquee("Hello, World!", 10, format: new MarqueeFormat(empty: '.', emptyWhen: () => empty));
 
-
             for (int i = 0; i < 5; i++)
             {
                 m.Scroll();
@@ -211,7 +208,6 @@ namespace Utility.CommandLine.Progress.Tests
         {
             var complete = false;
             var m = new Marquee("Hello, World!", 10, format: new MarqueeFormat(empty: '.', complete: "Done!", completeWhen: () => complete));
-
 
             for (int i = 0; i < 5; i++)
             {

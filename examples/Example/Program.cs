@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
 using Utility.CommandLine;
 
@@ -53,7 +54,7 @@ namespace Example
             lines.Add(() =>
             {
                 withPercentage.Increment();
-                Console.Write($"{withPercentage} [{(withPercentage.Percent * 100).ToString().PadLeft(3)}%]".PadRight(Console.WindowWidth - 1));
+                Console.Write($"{withPercentage} [{(withPercentage.Percent * 100).ToString(CultureInfo.InvariantCulture).PadLeft(3)}%]".PadRight(Console.WindowWidth - 1));
             });
 
             var helloWorld = new Marquee("Hello, World!", 15);

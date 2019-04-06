@@ -30,9 +30,9 @@
 
 namespace Utility.CommandLine.Tests
 {
-    using AutoFixture.Xunit2;
     using System;
     using System.Collections.Generic;
+    using AutoFixture.Xunit2;
     using Xunit;
 
     public class ProgressBarTests
@@ -59,7 +59,7 @@ namespace Utility.CommandLine.Tests
             Assert.Equal(e, f.EmptyWhen);
             Assert.Equal(h, f.HiddenWhen);
         }
-        
+
         [Theory(DisplayName = "ProgressBar instantiates with the given values"), AutoData]
         public void ProgressBar_Instantiates_With_The_Given_Values(int width, int minimum, int maximum, int step, ProgressBarFormat format)
         {

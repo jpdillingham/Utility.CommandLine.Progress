@@ -11,12 +11,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example", "examples\Example
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2837E72B-10B5-4F71-909F-4287DC1D7574}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		.travis.yml = .travis.yml
 		appveyor.yml = appveyor.yml
 		CONTRIBUTING.md = CONTRIBUTING.md
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{69A4978C-28F2-4C29-BAE0-1984759B519F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9F398534-2C32-4F2F-A21C-877A5F8DA9CF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{85555FC7-E164-42E8-A60B-E767475D1BEC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +46,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BBF4716D-93A7-4444-A144-66A872DF28FE} = {69A4978C-28F2-4C29-BAE0-1984759B519F}
+		{FA7BF12A-66E6-43DC-BB0E-AED8AE259FF9} = {9F398534-2C32-4F2F-A21C-877A5F8DA9CF}
+		{CCC61D43-1DBF-48FA-B866-F5F56CC84061} = {85555FC7-E164-42E8-A60B-E767475D1BEC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A028BA4F-97E0-4AD6-9E22-8DC2CE06A364}

@@ -5,6 +5,7 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <ApplicationIcon />
     <StartupObject />
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
