@@ -15,8 +15,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="2.10.0" />
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="7.11.0.8083">
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.1" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="7.12.0.8217">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>

@@ -33,6 +33,7 @@ namespace Utility.CommandLine.Progress
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.IO;
     using System.Linq;
     using System.Text;
 
@@ -52,7 +53,7 @@ namespace Utility.CommandLine.Progress
             {
                 return Console.WindowWidth > 0;
             }
-            catch (Exception)
+            catch (IOException)
             {
                 return false;
             }
