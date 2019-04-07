@@ -11,7 +11,7 @@
 
   <PropertyGroup>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.4</Version>
+    <Version>0.0.5</Version>
     <Authors>JP Dillingham</Authors>
     <Product>Utility.CommandLine.Progress</Product>
     <PackageProjectUrl>https://github.com/jpdillingham/Utility.CommandLine.Progress</PackageProjectUrl>
