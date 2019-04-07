@@ -4,7 +4,7 @@ language: csharp
 mono: none
 dotnet: 2.1
 before_script:
-- echo 'export PATH=$HOME/.dotnet/tools:$PATH' >> $BASH_ENV
+- export PATH="$PATH:$HOME/.dotnet/tools"
 - dotnet tool install --global dotnet-sonarscanner --version 4.6.0
 script:
 - bash build/ci.sh
