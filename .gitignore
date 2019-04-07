@@ -328,4 +328,6 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
-/tests/Utility.CommandLine.Progress.Tests/coverage.xml
+
+coverage.xml
+opencover.xml
