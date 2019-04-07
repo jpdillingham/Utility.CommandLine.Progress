@@ -5,5 +5,3 @@ build_script:
 - dotnet build --no-restore --no-incremental
 test_script:
 - dotnet test -p:CollectCoverage=true -p:CoverletOutput="../opencover.xml" -p:CoverletOutputFormat=opencover tests/Utility.CommandLine.Progress.Tests -p:Include="[Utility.CommandLine.Progress*]*" -p:Exclude="[*.Tests]*"
-- pip install codecov
-- codecov -f "tests/opencover.xml"

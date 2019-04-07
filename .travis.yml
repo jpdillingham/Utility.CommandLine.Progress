@@ -3,5 +3,8 @@ os:
 language: csharp
 mono: none
 dotnet: 2.1
+before_script:
+- export PATH="$PATH:$HOME/.dotnet/tools"
+- dotnet tool install --global dotnet-sonarscanner --version 4.6.0
 script:
 - bash build/ci.sh
