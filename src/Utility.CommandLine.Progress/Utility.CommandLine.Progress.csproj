@@ -8,14 +8,14 @@
   <PropertyGroup>
     <CodeAnalysisRuleSet>..\CodeAnalysis\CodeAnalysis.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  
+
   <PropertyGroup>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.3</Version>
+    <Version>0.0.4</Version>
     <Authors>JP Dillingham</Authors>
     <Product>Utility.CommandLine.Progress</Product>
     <PackageProjectUrl>https://github.com/jpdillingham/Utility.CommandLine.Progress</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/jpdillingham/Utility.CommandLine.Progress/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>A C# .NET class library containing tools for displaying progress in console applications.</Description>
     <Copyright>Copyright (c) JP Dillingham (jp@dillingham.ws)</Copyright>
     <RepositoryUrl>https://github.com/jpdillingham/Utility.CommandLine.Progress</RepositoryUrl>
@@ -33,8 +33,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.0.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="SonarAnalyzer.CSharp" Version="7.12.0.8217">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
