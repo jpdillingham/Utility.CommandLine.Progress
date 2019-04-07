@@ -4,4 +4,5 @@ language: csharp
 mono: none
 dotnet: 2.1
 script:
+- dotnet tool install --global dotnet-sonarscanner --version 4.6.0
 - bash build/ci.sh
